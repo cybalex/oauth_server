@@ -1,4 +1,7 @@
 {
+    "bshaffer/oauth2-server-php": {
+        "version": "v1.11.1"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
