@@ -1,4 +1,8 @@
-oauth_token:
+# ToDo: remove this route after creating command for creating users
+create_dummy_user:
+    path: /test
+    controller:  App\Controller\OauthController::createTestUser
+
+fos_oauth_server_token:
     path: /oauth/v2/token
-    controller: App\Controller\OauthController::oauth
-    methods: GET
+    controller:  App\Controller\OauthController::token

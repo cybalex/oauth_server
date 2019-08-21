@@ -23,16 +23,21 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller'
-        tags: ['controller.service_arguments']
+#    App\Controller\:
+#        resource: '../src/Controller'
+#        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Services\OauthPDOCreator:
+    App\Services\UserProvider:
         arguments:
-            - '%db_name%'
-            - '%db_host%'
-            - '%db_user%'
-            - '%db_password%'
+            - '@doctrine.orm.entity_manager'
+    OAuth2\OAuth2:
+        alias: fos_oauth_server.server
+
+    fos_oauth_server.controller.token:
+        class: App\Controller\OauthController
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@fos_oauth_server.server'
