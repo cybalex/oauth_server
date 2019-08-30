@@ -22,11 +22,11 @@ class OauthController extends AbstractController
      */
     private $server;
 
-
     /**
      * OauthController constructor.
+     *
      * @param ObjectManager $objectManager
-     * @param OAuth2 $server
+     * @param OAuth2        $server
      */
     public function __construct(ObjectManager $objectManager, OAuth2 $server)
     {

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -49,7 +48,6 @@ class User implements UserInterface, \Serializable
     private $isActive;
 
     private $roles;
-
 
     public function __construct()
     {
@@ -141,9 +139,9 @@ class User implements UserInterface, \Serializable
     public function serialize()
     {
         return serialize(
-            array(
+            [
                 $this->id,
-            )
+            ]
         );
     }
 
@@ -152,8 +150,7 @@ class User implements UserInterface, \Serializable
      */
     public function unserialize($serialized)
     {
-        list (
-            $this->id,
-            ) = unserialize($serialized);
+        list(
+            $this->id) = unserialize($serialized);
     }
 }

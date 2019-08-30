@@ -2,9 +2,11 @@ cybalex/oauth-server
 ====
 About
 ----
-This is a compact stand-alone oauth2 server, based on symfony 4.3 skeleton, which is easy to set up.
-It uses [fos oauth server bundle](https://github.com/FriendsOfSymfony/FOSOAuthServerBundle) and provides an easy
-way to get access token.
+cybalex/oauth-server is a stand-alone lightweight oauth2 server, based on 
+[symfony 4.3 skeleton](https://github.com/symfony/skeleton/releases) and 
+[fos oauth server bundle](https://github.com/FriendsOfSymfony/FOSOAuthServerBundle).
+
+[![Build Status](https://travis-ci.org/cybalex/oauth_server.svg?branch=master)](https://travis-ci.org/cybalex/oauth_server)
 
 Installation
 ----

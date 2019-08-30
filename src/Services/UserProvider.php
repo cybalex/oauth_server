@@ -15,13 +15,16 @@ class UserProvider implements UserProviderInterface
     /** @var ObjectManager */
     private $objectManager;
 
-    public function __construct(ObjectManager $objectManager){
+    public function __construct(ObjectManager $objectManager)
+    {
         $this->objectManager = $objectManager;
     }
 
     /**
      * @param string $username
+     *
      * @return mixed|UserInterface
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function loadUserByUsername($username)
@@ -48,6 +51,7 @@ class UserProvider implements UserProviderInterface
 
     /**
      * @param UserInterface $user
+     *
      * @return object|UserInterface|null
      */
     public function refreshUser(UserInterface $user)
@@ -62,7 +66,7 @@ class UserProvider implements UserProviderInterface
             );
         }
 
-        /** @var User $user */
+        /* @var User $user */
         return $this->userRepository->find($user->getId());
     }
 

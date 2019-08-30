@@ -18,10 +18,10 @@ class UserManager
      */
     private $passwordEncoder;
 
-
     /**
      * UserManager constructor.
-     * @param ObjectManager $objectManager
+     *
+     * @param ObjectManager         $objectManager
      * @param NativePasswordEncoder $passwordEncoder
      */
     public function __construct(ObjectManager $objectManager, NativePasswordEncoder $passwordEncoder)
