@@ -2,16 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use OAuth2\OAuth2;
 use OAuth2\OAuth2ServerException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Security\Core\Encoder\NativePasswordEncoder;
 
 class OauthController extends AbstractController
 {
@@ -25,36 +22,16 @@ class OauthController extends AbstractController
      */
     private $server;
 
+
+    /**
+     * OauthController constructor.
+     * @param ObjectManager $objectManager
+     * @param OAuth2 $server
+     */
     public function __construct(ObjectManager $objectManager, OAuth2 $server)
     {
         $this->objectManager = $objectManager;
         $this->server = $server;
-    }
-
-    /**
-     *
-     * ToDo: This dummy method should not be here => create console command to create users instead
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function createTestUser(Request $request)
-    {
-        try {
-            $user = new User();
-            $user->setUsername('test');
-            $passwordEncoder = new NativePasswordEncoder();
-            $user->setPassword($passwordEncoder->encodePassword('test', $user->getSalt()));
-            $user->setPlainPassword('test');
-
-            $this->objectManager->persist($user);
-            $this->objectManager->flush();
-
-        } catch (\Exception $e) {
-            return new JsonResponse(['not ok']);
-        }
-
-        return new JsonResponse(['ok']);
     }
 
     /**

@@ -21,12 +21,6 @@ services:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-#    App\Controller\:
-#        resource: '../src/Controller'
-#        tags: ['controller.service_arguments']
-
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
@@ -41,3 +35,5 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@fos_oauth_server.server'
+
+    Symfony\Component\Security\Core\Encoder\NativePasswordEncoder:

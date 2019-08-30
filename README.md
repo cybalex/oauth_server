@@ -112,10 +112,8 @@ docker-compose up -d && docker-compose ps
 ```shell script
 cd oauth; composer install && php bin/console doctrine:schema:update --force;
 php bin/console fos:oauth-server:create-client --grant-type=passwordphp;
-bin/console oauth-server:user:create;
+bin/console oauth-server:user:create --username=test --email=test@domain.com --password=test;
 ```
-
-Enter the prompted data for the user creation;
 
 Grant-type=password requires client password and username to generate a token. Read more about possible values 
 at [oauth2 official page]: https://oauth.net/2/
@@ -147,7 +145,7 @@ other parts of application, where access token will be used.
 
 ToDo
 ----
-- implement user create command;
+- ~~implement user create command~~;
 - implement user authentication, which would check, if all requested scopes are allowed for the user.
 - move entities and user provider into separate repository
 - get rid of hardcoded encryption algorithm - make it possible to configure it from env file

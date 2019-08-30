@@ -34,7 +34,7 @@ class User implements UserInterface, \Serializable
     private $salt;
 
     /**
-     * @var @ORM\Column(name="plain_password", type="string", length=255)
+     * @var @ORM\Column(name="plain_password", type="string", length=255, nullable=true)
      */
     private $plainPassword;
 
@@ -49,6 +49,7 @@ class User implements UserInterface, \Serializable
     private $isActive;
 
     private $roles;
+
 
     public function __construct()
     {
@@ -98,14 +99,14 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
-    public function setPlainPassword(string $plainPassword): User
+    public function setPlainPassword(?string $plainPassword): User
     {
         $this->plainPassword = $plainPassword;
 
         return $this;
     }
 
-    public function getPlainPassword(): string
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
@@ -120,6 +121,18 @@ class User implements UserInterface, \Serializable
         $this->password = null;
 
         return $this;
+    }
+
+    public function setEmail($email): User
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
     }
 
     /**
