@@ -2,12 +2,13 @@ cybalex/oauth-server
 ====
 About
 ----
-This is a compact stand-alone oauth2 server, based on symfony 4 skeleton, which is easy to set up and customize.
-It uses fos oauth server bundle and provides an easy way to authorize users.
+This is a compact stand-alone oauth2 server, based on symfony 4.3 skeleton, which is easy to set up.
+It uses [fos oauth server bundle](https://github.com/FriendsOfSymfony/FOSOAuthServerBundle) and provides an easy
+way to get access token.
 
 Installation
 ----
-- clone the repo:
+- Clone the repository:
 ```shell script
 git clone git@github.com:cybalex/oauth_server.git
 ```
@@ -101,24 +102,27 @@ server {
 }
 ```
 
-- make sure to create .env.local file in the root directory of the project by copying .env.local.dist file. Modify it
-as required
+- Make sure to create .env.local file in the root directory of the project by copying .env.local.dist file. Modify it
+according to your needs
 
-- run the docker-compose:
+- Run the containers
 ```shell script
 docker-compose up -d && docker-compose ps
 ```
-- run fpm container with command `docker-compose run --rm oauth2_fpm bash` and run the following commands:
+- Run php-fpm container with command `docker-compose run --rm oauth2_fpm bash` and inside the container execute
+ the following commands:
 ```shell script
-cd oauth; composer install && php bin/console doctrine:schema:update --force;
-php bin/console fos:oauth-server:create-client --grant-type=passwordphp;
+cd oauth2;
+composer install
+php bin/console doctrine:schema:update --force;
+php bin/console fos:oauth-server:create-client --grant-type=password;
 bin/console oauth-server:user:create --username=test --email=test@domain.com --password=test;
 ```
 
-Grant-type=password requires client password and username to generate a token. Read more about possible values 
-at [oauth2 official page]: https://oauth.net/2/
+Grant type `password` requires client password and username to generate a token. Read more about possible values 
+at [oauth2 official page](https://oauth.net/2/).
 
-!ATTENTION do not run doctrine:schema:update in production env if the project is using production database :D. Use
+!!!!ATTENTION do not run doctrine:schema:update in production env if the project is using production database :D. Use
 doctrine migrations instead!
 
 Usage example
@@ -141,7 +145,7 @@ The sample output should be:
 ```
 
 On production environment oauth server should share user, access_token, auth_code, client and refresh_token tables with
-other parts of application, where access token will be used.
+other parts of application, where access token is used.
 
 ToDo
 ----
