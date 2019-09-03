@@ -24,9 +24,10 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Services\UserProvider:
+    Cybalex\OauthEntities\Services\ORM\UserProvider:
         arguments:
             - '@doctrine.orm.entity_manager'
+
     OAuth2\OAuth2:
         alias: fos_oauth_server.server
 
@@ -37,3 +38,8 @@ services:
             - '@fos_oauth_server.server'
 
     Symfony\Component\Security\Core\Encoder\NativePasswordEncoder:
+
+    Cybalex\OauthEntities\Services\ORM\UserManager:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@Symfony\Component\Security\Core\Encoder\NativePasswordEncoder'

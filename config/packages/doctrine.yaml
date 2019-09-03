@@ -19,3 +19,8 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            OauthEntities:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/vendor/cybalex/oauth_entities/src/Entity/ORM'
+                prefix: 'Cybalex\OauthEntities\Entity\ORM'

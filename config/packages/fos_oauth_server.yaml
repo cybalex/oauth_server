@@ -1,11 +1,11 @@
 fos_oauth_server:
   db_driver: orm
-  client_class: App\Entity\Client
-  access_token_class: App\Entity\AccessToken
-  refresh_token_class: App\Entity\RefreshToken
-  auth_code_class: App\Entity\AuthCode
+  client_class: Cybalex\OauthEntities\Entity\ORM\Client
+  access_token_class: Cybalex\OauthEntities\Entity\ORM\AccessToken
+  refresh_token_class: Cybalex\OauthEntities\Entity\ORM\RefreshToken
+  auth_code_class: Cybalex\OauthEntities\Entity\ORM\AuthCode
   service:
-    user_provider: App\Services\UserProvider
+    user_provider: Cybalex\OauthEntities\Services\ORM\UserProvider
     options:
       supported_scopes: '%env(resolve:FOS_OAUTH_SERVER_SCOPES)%'
       access_token_lifetime: '%env(resolve:FOS_OAUTH_TOKEN_LIFETIME)%'

@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Services\UserManager;
+use Cybalex\OauthEntities\Services\ORM\UserManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

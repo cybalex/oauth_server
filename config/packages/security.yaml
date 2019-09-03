@@ -1,6 +1,6 @@
 security:
     encoders:
-        App\Entity\User:
+        Cybalex\OauthEntities\Entity\ORM\User:
             algorithm:            bcrypt
             cost:                 13
 
@@ -10,7 +10,7 @@ security:
 
     providers:
         app_user_provider:
-            id: App\Services\UserProvider
+            id: Cybalex\OauthEntities\Services\ORM\UserProvider
 
     firewalls:
         dev:
