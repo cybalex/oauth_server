@@ -153,8 +153,8 @@ ToDo
 ----
 - ~~implement user create command~~;
 - implement user authentication, which would check, if all requested scopes are allowed for the user.
-- move entities and user provider into separate repository
-- get rid of hardcoded encryption algorithm - make it possible to configure it from env file
+- ~~move entities and user provider into separate repository~~
+- ~~get rid of hardcoded encryption algorithm~~ - make it possible to configure it from env file - decide to use bcryt by default
 - create separate repository with deploy procedures for oauth_server project
 - use post instead of get for access token endpoint
 - cover with phpunit tests;
