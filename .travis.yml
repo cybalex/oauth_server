@@ -27,3 +27,6 @@ install: cp .env.local.dist .env.local && composer install --prefer-dist --no-in
 
 script:
   - make $TARGET
+
+after_success:
+  - bash -c "curl -s https://codecov.io/bash"

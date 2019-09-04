@@ -7,6 +7,7 @@ cybalex/oauth-server is a stand-alone lightweight oauth2 server, based on
 [fos oauth server bundle](https://github.com/FriendsOfSymfony/FOSOAuthServerBundle).
 
 [![Build Status](https://travis-ci.org/cybalex/oauth_server.svg?branch=master)](https://travis-ci.org/cybalex/oauth_server)
+[![Coverage](https://codecov.io/gh/cybalex/oauth_server/branch/master/graph/badge.svg)](https://codecov.io/gh/cybalex/oauth_server)
 
 Installation
 ----

@@ -3,7 +3,6 @@
 namespace Cybalex\OauthServer\Command;
 
 use Cybalex\OauthEntities\Services\ORM\UserManager;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,7 +17,7 @@ class CreateUserCommand extends Command
      */
     private $userManager;
 
-    public function __construct(ObjectManager $objectEntity, UserManager $userManager, string $name = null)
+    public function __construct(UserManager $userManager, string $name = null)
     {
         parent::__construct($name);
 
