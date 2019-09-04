@@ -25,7 +25,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="Oauth Test Suite">
+        <testsuite name="Oauth Server Test Suite">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>

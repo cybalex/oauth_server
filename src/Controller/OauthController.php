@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controller;
+namespace Cybalex\OauthServer\Controller;
 
+use Cybalex\OauthServer\Services\UserScopeAuthenticator;
 use Doctrine\Common\Persistence\ObjectManager;
 use OAuth2\OAuth2;
 use OAuth2\OAuth2ServerException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class OauthController extends AbstractController
 {
@@ -23,15 +23,25 @@ class OauthController extends AbstractController
     private $server;
 
     /**
+     * @var UserScopeAuthenticator
+     */
+    private $userScopeAuthenticator;
+
+    /**
      * OauthController constructor.
      *
-     * @param ObjectManager $objectManager
-     * @param OAuth2        $server
+     * @param ObjectManager          $objectManager
+     * @param OAuth2                 $server
+     * @param UserScopeAuthenticator $userScopeAuthenticator
      */
-    public function __construct(ObjectManager $objectManager, OAuth2 $server)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+        OAuth2 $server,
+        UserScopeAuthenticator $userScopeAuthenticator
+    ) {
         $this->objectManager = $objectManager;
         $this->server = $server;
+        $this->userScopeAuthenticator = $userScopeAuthenticator;
     }
 
     /**
@@ -42,10 +52,13 @@ class OauthController extends AbstractController
     public function token(Request $request)
     {
         if (!$request->get('scope')) {
-            throw new BadRequestHttpException('Empty or missing scope is provided in the requested');
+            return (new OAuth2ServerException(400, 400, 'Empty or missing scope is provided in the requested'))
+                ->getHttpResponse();
         }
 
         try {
+            $this->userScopeAuthenticator->authenticate($request);
+
             return $this->server->grantAccessToken($request);
         } catch (OAuth2ServerException $e) {
             return $e->getHttpResponse();

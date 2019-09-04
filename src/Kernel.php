@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace Cybalex\OauthServer;
 
-use App\DependencyInjection\ServiceManagerPass;
+use Cybalex\OauthServer\DependencyInjection\ServiceManagerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;

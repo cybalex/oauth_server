@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DependencyInjection;
+namespace Cybalex\OauthServer\DependencyInjection;
 
-use App\Controller\OauthController;
+use Cybalex\OauthServer\Controller\OauthController;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

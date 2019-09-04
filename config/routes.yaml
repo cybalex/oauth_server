@@ -1,3 +1,3 @@
 fos_oauth_server_token:
     path: /oauth/v2/token
-    controller:  App\Controller\OauthController::token
+    controller:  Cybalex\OauthServer\Controller\OauthController::token

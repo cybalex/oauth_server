@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cybalex\OauthServer\Tests;
 
 use PHPUnit\Framework\TestCase;
 

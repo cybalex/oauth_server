@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace Cybalex\OauthServer\Command;
 
 use Cybalex\OauthEntities\Services\ORM\UserManager;
 use Doctrine\Common\Persistence\ObjectManager;
