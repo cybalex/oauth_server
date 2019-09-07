@@ -2,11 +2,13 @@
 
 namespace Cybalex\OauthServer\Controller;
 
-use Cybalex\OauthServer\Services\UserScopeAuthenticator;
+use Cybalex\OauthServer\Event\PreTokenGrantAccessEvent;
+use Cybalex\OauthServer\Oauth2Events;
 use Doctrine\Common\Persistence\ObjectManager;
 use OAuth2\OAuth2;
 use OAuth2\OAuth2ServerException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,25 +25,25 @@ class OauthController extends AbstractController
     private $server;
 
     /**
-     * @var UserScopeAuthenticator
+     * @var EventDispatcherInterface
      */
-    private $userScopeAuthenticator;
+    private $eventDispatcher;
 
     /**
      * OauthController constructor.
      *
-     * @param ObjectManager          $objectManager
-     * @param OAuth2                 $server
-     * @param UserScopeAuthenticator $userScopeAuthenticator
+     * @param ObjectManager            $objectManager
+     * @param OAuth2                   $server
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         ObjectManager $objectManager,
         OAuth2 $server,
-        UserScopeAuthenticator $userScopeAuthenticator
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->objectManager = $objectManager;
         $this->server = $server;
-        $this->userScopeAuthenticator = $userScopeAuthenticator;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -57,7 +59,8 @@ class OauthController extends AbstractController
         }
 
         try {
-            $this->userScopeAuthenticator->authenticate($request);
+            $event = new PreTokenGrantAccessEvent($request);
+            $this->eventDispatcher->dispatch(Oauth2Events::PRE_TOKEN_GRANT_ACCESS, $event);
 
             return $this->server->grantAccessToken($request);
         } catch (OAuth2ServerException $e) {

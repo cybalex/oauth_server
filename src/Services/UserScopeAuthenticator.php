@@ -40,7 +40,7 @@ class UserScopeAuthenticator
             $role = sprintf('ROLE_%s', strtoupper($scope));
 
             if (!in_array($role, $user->getRoles())) {
-                throw new OAuth2ServerException(401, 401, 'Invalid or missing scopes provider in the request');
+                throw new OAuth2ServerException(401, 401, 'Invalid or missing scopes provided in request');
             }
         }
 

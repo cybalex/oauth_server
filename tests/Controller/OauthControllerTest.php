@@ -8,6 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use OAuth2\OAuth2;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 
 class OauthControllerTest extends TestCase
@@ -23,14 +24,14 @@ class OauthControllerTest extends TestCase
     private $oauth2;
 
     /**
-     * @var UserScopeAuthenticator|MockObject
-     */
-    private $userScopeAuthenticator;
-
-    /**
      * @var MockObject|Request
      */
     private $request;
+
+    /**
+     * @var EventDispatcher|MockObject
+     */
+    private $eventDispatcher;
 
     /**
      * @var OauthController
@@ -41,8 +42,8 @@ class OauthControllerTest extends TestCase
     {
         $this->objectManager = $this->createMock(ObjectManager::class);
         $this->oauth2 = $this->createMock(OAuth2::class);
-        $this->userScopeAuthenticator = $this->createMock(UserScopeAuthenticator::class);
-        $this->controller = new OauthController($this->objectManager, $this->oauth2, $this->userScopeAuthenticator);
+        $this->eventDispatcher = $this->createMock(EventDispatcher::class);
+        $this->controller = new OauthController($this->objectManager, $this->oauth2, $this->eventDispatcher);
         $this->request = $this->createMock(Request::class);
     }
 
