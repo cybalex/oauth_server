@@ -158,7 +158,8 @@ ToDo
 - ~~get rid of hardcoded encryption algorithm~~ - make it possible to configure it from env file - decide to use bcryt by default
 - create separate repository with deploy procedures for oauth_server project
 - use post instead of get for access token endpoint
-- decouple User scope authentication logic from oauth controller
+- ~~decouple User scope authentication logic from oauth controller~~
+- get rid of hardcoded roles for User entity
 - cover with phpunit tests;
 
 Additional notes
