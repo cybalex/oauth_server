@@ -2,7 +2,7 @@
 
 namespace Cybalex\OauthServer\Services;
 
-use Cybalex\OauthEntities\Entity\ORM\User;
+use Cybalex\OauthServer\Entity\ORM\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use OAuth2\OAuth2ServerException;
 use Symfony\Component\HttpFoundation\Request;

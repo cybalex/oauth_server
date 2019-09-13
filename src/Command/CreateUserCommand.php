@@ -2,7 +2,7 @@
 
 namespace Cybalex\OauthServer\Command;
 
-use Cybalex\OauthEntities\Services\ORM\UserManager;
+use Cybalex\OauthServer\Services\ORM\UserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -31,6 +31,7 @@ class CreateUserCommand extends Command
             ->addOption('username', null, InputOption::VALUE_REQUIRED, 'The username of the user.')
             ->addOption('email', null, InputOption::VALUE_REQUIRED, 'The email of the user')
             ->addOption('password', null, InputOption::VALUE_REQUIRED, 'The username of the user.')
+            ->addOption('role', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'The user roles.')
             ->setHelp('This command allows you to create a user...')
         ;
     }
@@ -46,12 +47,14 @@ class CreateUserCommand extends Command
         $this->userManager->createUser(
             $input->getOption('username'),
             $input->getOption('email'),
-            $input->getOption('password')
+            $input->getOption('password'),
+            $input->getOption('role')
         );
 
         $output->writeln('Username: '.$input->getOption('username'));
         $output->writeln('Email address: '.$input->getOption('email'));
         $output->writeln('Password: '.$input->getOption('password'));
+        $output->writeln('User roles: '.implode(' ', $input->getOption('role')));
         $output->writeln('');
         $output->writeln('User successfully generated!');
     }
