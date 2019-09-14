@@ -4,54 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1496cd4af42434dd4a86887b285e11b1",
+    "content-hash": "77d3c22070e43a03ccf294d6acff3be9",
     "packages": [
-        {
-            "name": "cybalex/oauth_entities",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cybalex/oauth_entities.git",
-                "reference": "cbc956a912c3a00239c63da3a6c4e4b77655c24b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cybalex/oauth_entities/zipball/cbc956a912c3a00239c63da3a6c4e4b77655c24b",
-                "reference": "cbc956a912c3a00239c63da3a6c4e4b77655c24b",
-                "shasum": ""
-            },
-            "require": {
-                "friendsofsymfony/oauth-server-bundle": "^1.6",
-                "php": "^7.1.3"
-            },
-            "require-dev": {
-                "cybalex/test_helpers": "^1.0.1",
-                "doctrine/orm": "^2.6",
-                "friendsofphp/php-cs-fixer": "^2.15",
-                "phpunit/phpunit": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Cybalex\\OauthEntities\\": "src/"
-                },
-                "exclude-from-classmap": [
-                    "/tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Oleksii Zymovets",
-                    "email": "cybalex87@gmail.com"
-                }
-            ],
-            "description": "Oauth entities",
-            "time": "2019-09-03T21:35:08+00:00"
-        },
         {
             "name": "doctrine/annotations",
             "version": "v1.7.0",
@@ -3596,6 +3550,43 @@
                 "performance"
             ],
             "time": "2019-05-27T17:52:04+00:00"
+        },
+        {
+            "name": "cybalex/test_helpers",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cybalex/test_helpers.git",
+                "reference": "598f2e19687f20bb00aeb89ee3786f19637cbbee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cybalex/test_helpers/zipball/598f2e19687f20bb00aeb89ee3786f19637cbbee",
+                "reference": "598f2e19687f20bb00aeb89ee3786f19637cbbee",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cybalex\\TestHelpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oleksii Zymovets",
+                    "email": "cybalex87@gmail.com"
+                }
+            ],
+            "description": "Collection of helper classes for phpunit testing enhancement",
+            "time": "2019-09-03T19:57:23+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",

@@ -9,6 +9,8 @@ parameters:
     db_user: '%env(string:DB_USER)%'
     db_password: '%env(string:DB_PASSWORD)%'
 
+    supported_user_scopes: '%env(resolve:FOS_OAUTH_SERVER_SCOPES)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -24,7 +26,7 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    Cybalex\OauthEntities\Services\ORM\UserProvider:
+    Cybalex\OauthServer\Services\ORM\UserProvider:
         arguments:
             - '@doctrine.orm.entity_manager'
 
@@ -40,10 +42,11 @@ services:
 
     Symfony\Component\Security\Core\Encoder\NativePasswordEncoder:
 
-    Cybalex\OauthEntities\Services\ORM\UserManager:
+    Cybalex\OauthServer\Services\ORM\UserManager:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@Symfony\Component\Security\Core\Encoder\NativePasswordEncoder'
+            - '%supported_user_scopes%'
 
     Cybalex\OauthServer\EventSubscriber\TokenGrantSubscriber:
         arguments:
