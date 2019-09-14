@@ -5,7 +5,7 @@ namespace Cybalex\OauthServer\Services\ORM;
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\OauthServer\Exception\UnsupportedUserScopeException;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\NativePasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 class UserManager
 {
@@ -15,7 +15,7 @@ class UserManager
     private $objectManager;
 
     /**
-     * @var NativePasswordEncoder
+     * @var PasswordEncoderInterface
      */
     private $passwordEncoder;
 
@@ -28,12 +28,12 @@ class UserManager
      * UserManager constructor.
      *
      * @param ObjectManager         $objectManager
-     * @param NativePasswordEncoder $passwordEncoder
+     * @param PasswordEncoderInterface $passwordEncoder
      * @param string                $supportedScopes
      */
     public function __construct(
         ObjectManager $objectManager,
-        NativePasswordEncoder $passwordEncoder,
+        PasswordEncoderInterface $passwordEncoder,
         string $supportedScopes
     ) {
         $this->objectManager = $objectManager;
@@ -68,19 +68,10 @@ class UserManager
             throw $e;
         }
 
-        $roles =
-//            array_reduce(
-                array_map(
-                    function ($role) {
-                        return sprintf('ROLE_%s', strtoupper($role));
-                    },
-                    $roles
-                )//,
-//                function($res, $item) {
-//                    return sprintf('%s %s', $res, $item);
-//                }
-//            )
-        ;
+        $roles = array_map(function ($role) {
+                return sprintf('ROLE_%s', strtoupper($role));
+            }, $roles
+        );
 
         $user->setRoles($roles);
 

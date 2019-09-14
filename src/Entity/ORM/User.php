@@ -50,7 +50,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(name="roles", type="array")
      */
-    private $roles;
+    private $roles = [];
 
     public function __construct()
     {
