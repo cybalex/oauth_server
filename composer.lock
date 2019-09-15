@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77d3c22070e43a03ccf294d6acff3be9",
+    "content-hash": "2a0e090c08ca5a99955db172f8ccca5e",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -3553,16 +3553,16 @@
         },
         {
             "name": "cybalex/test_helpers",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cybalex/test_helpers.git",
-                "reference": "598f2e19687f20bb00aeb89ee3786f19637cbbee"
+                "reference": "91e42a18bf7d02c879e5be4d5fca4508f18e4b16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cybalex/test_helpers/zipball/598f2e19687f20bb00aeb89ee3786f19637cbbee",
-                "reference": "598f2e19687f20bb00aeb89ee3786f19637cbbee",
+                "url": "https://api.github.com/repos/cybalex/test_helpers/zipball/91e42a18bf7d02c879e5be4d5fca4508f18e4b16",
+                "reference": "91e42a18bf7d02c879e5be4d5fca4508f18e4b16",
                 "shasum": ""
             },
             "require": {
@@ -3586,7 +3586,7 @@
                 }
             ],
             "description": "Collection of helper classes for phpunit testing enhancement",
-            "time": "2019-09-03T19:57:23+00:00"
+            "time": "2019-09-15T22:14:20+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",

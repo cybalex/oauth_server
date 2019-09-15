@@ -12,13 +12,13 @@ class UnsupportedUserScopeException extends InvalidArgumentException
     private $unsupportedScopes = [];
 
     /**
-     * @param string $unsupportedScoped
+     * @param string $unsupportedScope
      *
      * @return UnsupportedUserScopeException
      */
-    public function addUnsupportedScope(string $unsupportedScoped): UnsupportedUserScopeException
+    public function addUnsupportedScope(string $unsupportedScope): UnsupportedUserScopeException
     {
-        array_push($this->unsupportedScopes, $unsupportedScoped);
+        array_push($this->unsupportedScopes, $unsupportedScope);
 
         $this->message = sprintf('The user scopes %s are not supported', implode(', ', $this->unsupportedScopes));
 

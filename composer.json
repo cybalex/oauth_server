@@ -23,7 +23,7 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
-        "cybalex/test_helpers": "^1.0",
+        "cybalex/test_helpers": "^1.0.2",
         "friendsofphp/php-cs-fixer": "^2.15",
         "phpunit/phpunit": "^8.3"
     },

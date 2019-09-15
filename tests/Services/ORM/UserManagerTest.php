@@ -4,6 +4,7 @@ namespace Cybalex\OauthServer\Tests\Services\ORM;;
 
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\OauthServer\Services\ORM\UserManager;
+use Cybalex\TestHelpers\ProtectedMethodsTestTrait;
 use Doctrine\Common\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +12,8 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 class UserManagerTest extends TestCase
 {
+    use ProtectedMethodsTestTrait;
+
     /**
      * @var PasswordEncoderInterface|MockObject
      */
@@ -81,28 +84,5 @@ class UserManagerTest extends TestCase
         $expectedUser->setSalt(null);
 
         $this->assertEquals($actualUser, $expectedUser);
-    }
-
-
-    /**
-     * Call protected method of a class.
-     *
-     * @param object $object
-     * @param string $methodName
-     * @param array $parameters
-     *
-     * @return mixed Method return.
-     *
-     * @throws \ReflectionException
-     *
-     * ToDo: move this method to test_helper trait
-     */
-    public function invokeMethod($object, $methodName, array $parameters = [])
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $parameters);
     }
 }
