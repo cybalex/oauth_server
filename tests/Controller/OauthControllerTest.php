@@ -3,11 +3,10 @@
 namespace Cybalex\OauthServer\Tests\Controller;
 
 use Cybalex\OauthServer\Controller\OauthController;
-use Cybalex\OauthServer\Services\UserScopeAuthenticator;
 use Doctrine\Common\Persistence\ObjectManager;
 use OAuth2\OAuth2;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -55,7 +54,7 @@ class OauthControllerTest extends TestCase
         $expectedResponseStatusCode = 400;
         $response = $this->controller->token($this->request);
 
-        $this->assertEquals($expectedResponseText, $response->getContent());
-        $this->assertEquals($expectedResponseStatusCode, $response->getStatusCode());
+        $this->assertSame($expectedResponseText, $response->getContent());
+        $this->assertSame($expectedResponseStatusCode, $response->getStatusCode());
     }
 }

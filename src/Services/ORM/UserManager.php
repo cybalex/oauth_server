@@ -27,9 +27,9 @@ class UserManager
     /**
      * UserManager constructor.
      *
-     * @param ObjectManager         $objectManager
+     * @param ObjectManager            $objectManager
      * @param PasswordEncoderInterface $passwordEncoder
-     * @param string                $supportedScopes
+     * @param string                   $supportedScopes
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -69,8 +69,8 @@ class UserManager
         }
 
         $roles = array_map(function ($role) {
-                return sprintf('ROLE_%s', strtoupper($role));
-            }, $roles
+            return sprintf('ROLE_%s', strtoupper($role));
+        }, $roles
         );
 
         $user->setRoles($roles);

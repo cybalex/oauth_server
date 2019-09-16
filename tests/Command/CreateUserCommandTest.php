@@ -2,8 +2,8 @@
 
 namespace Cybalex\OauthServer\Tests\Command;
 
-use Cybalex\OauthServer\Services\ORM\UserManager;
 use Cybalex\OauthServer\Command\CreateUserCommand;
+use Cybalex\OauthServer\Services\ORM\UserManager;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 

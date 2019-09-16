@@ -12,6 +12,6 @@ class PreTokenGrantAccessEventTest extends TestCase
     {
         $request = $this->createMock(Request::class);
         $event = new PreTokenGrantAccessEvent($request);
-        $this->assertEquals($request, $event->getRequest());
+        $this->assertSame($request, $event->getRequest());
     }
 }

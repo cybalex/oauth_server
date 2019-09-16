@@ -14,7 +14,7 @@ class TokenGrantSubscriberTest extends TestCase
 {
     public function testGetSubscribedEvents()
     {
-        $this->assertEquals(
+        $this->assertSame(
             [Oauth2Events::PRE_TOKEN_GRANT_ACCESS => 'authenticate'],
             TokenGrantSubscriber::getSubscribedEvents()
         );

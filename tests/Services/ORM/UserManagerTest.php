@@ -1,6 +1,6 @@
 <?php
 
-namespace Cybalex\OauthServer\Tests\Services\ORM;;
+namespace Cybalex\OauthServer\Tests\Services\ORM;
 
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\OauthServer\Services\ORM\UserManager;
@@ -39,7 +39,7 @@ class UserManagerTest extends TestCase
             ->setConstructorArgs([
                 $this->objectManager,
                 $this->passwordEncoder,
-                $supportedScopes
+                $supportedScopes,
             ])
             ->onlyMethods(['getNewUserInstance'])
             ->getMock();
@@ -83,6 +83,6 @@ class UserManagerTest extends TestCase
         $expectedUser = new User();
         $expectedUser->setSalt(null);
 
-        $this->assertEquals($actualUser, $expectedUser);
+        $this->assertSame($actualUser, $expectedUser);
     }
 }

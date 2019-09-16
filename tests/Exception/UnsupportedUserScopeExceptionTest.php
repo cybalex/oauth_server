@@ -15,7 +15,7 @@ class UnsupportedUserScopeExceptionTest extends TestCase
 
         $this->expectExceptionMessage('The user scopes admin, edit are not supported');
 
-        $this->assertEquals(['admin', 'edit'], $unsupportedUserScopeException->getUnsupportedScopes());
+        $this->assertSame(['admin', 'edit'], $unsupportedUserScopeException->getUnsupportedScopes());
 
         throw $unsupportedUserScopeException;
     }
