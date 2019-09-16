@@ -68,7 +68,7 @@ class UserManager
             throw $e;
         }
 
-        $roles = array_map(function ($role) {
+        $roles = \array_map(function ($role) {
             return sprintf('ROLE_%s', strtoupper($role));
         }, $roles
         );

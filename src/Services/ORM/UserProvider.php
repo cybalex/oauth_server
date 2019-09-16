@@ -17,11 +17,16 @@ class UserProvider implements UserProviderInterface
     /**
      * @var ObjectRepository
      */
-    private $userRepository;
+    private $objectManager;
+
+    /**
+     * @var ObjectRepository|null
+     */
+    private $userRepository = null;
 
     public function __construct(ObjectManager $objectManager)
     {
-        $this->userRepository = $objectManager->getRepository(User::class);
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -33,7 +38,7 @@ class UserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $q = $this->userRepository
+        $q = $this->getUserRepository()
             ->createQueryBuilder('u')
             ->where('u.username = :username OR u.email = :email')
             ->setParameter('username', $username)
@@ -47,6 +52,7 @@ class UserProvider implements UserProviderInterface
                 'Unable to find an active admin AcmeDemoBundle:User object identified by "%s".',
                 $username
             );
+
             throw new UsernameNotFoundException($message, 0, $e);
         }
 
@@ -54,13 +60,14 @@ class UserProvider implements UserProviderInterface
     }
 
     /**
-     * @param UserInterface $user
+     * @param UserInterface|User $user
      *
      * @return object|UserInterface|null
      */
     public function refreshUser(UserInterface $user)
     {
-        $class = get_class($user);
+        $class = \get_class($user);
+
         if (!$this->supportsClass($class)) {
             throw new UnsupportedUserException(
                 sprintf(
@@ -70,13 +77,26 @@ class UserProvider implements UserProviderInterface
             );
         }
 
-        /* @var User $user */
-        return $this->userRepository->find($user->getId());
+        return $this->getUserRepository()->find($user->getId());
     }
 
+    /**
+     * @param string $class
+     * @return bool
+     */
     public function supportsClass($class)
     {
-        return $this->userRepository->getClassName() === $class
-            || is_subclass_of($class, $this->userRepository->getClassName());
+        $repositoryClassName = $this->getUserRepository()->getClassName();
+
+        return $repositoryClassName === $class || \is_subclass_of($class, $repositoryClassName);
+    }
+
+    protected function getUserRepository()
+    {
+        if (!$this->userRepository) {
+            $this->userRepository = $this->objectManager->getRepository(User::class);
+        }
+
+        return $this->userRepository;
     }
 }
