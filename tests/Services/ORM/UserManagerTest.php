@@ -83,6 +83,6 @@ class UserManagerTest extends TestCase
         $expectedUser = new User();
         $expectedUser->setSalt(null);
 
-        $this->assertSame($actualUser, $expectedUser);
+        $this->assertEquals($actualUser, $expectedUser);
     }
 }
