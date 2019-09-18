@@ -9,7 +9,7 @@ parameters:
     db_user: '%env(string:DB_USER)%'
     db_password: '%env(string:DB_PASSWORD)%'
 
-    supported_user_scopes: '%env(resolve:FOS_OAUTH_SERVER_SCOPES)%'
+    supported_user_scopes: '%env(resolve:OAUTH_SERVER_SCOPES)%'
 
 services:
     # default configuration for services in *this* file
