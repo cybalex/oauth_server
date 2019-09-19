@@ -82,6 +82,7 @@ class UserProvider implements UserProviderInterface
 
     /**
      * @param string $class
+     *
      * @return bool
      */
     public function supportsClass($class)
