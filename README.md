@@ -150,16 +150,12 @@ The sample output should be:
 On production environment oauth server should share user, access_token, auth_code, client and refresh_token tables with
 other parts of application, where access token is used.
 
-ToDo
+ToDo list
 ----
-- ~~implement user create command~~;
-- ~~implement user authentication, which would check, if all requested scopes are allowed for the user.~~
-- ~~move entities and user provider into separate repository~~
-- ~~get rid of hardcoded encryption algorithm~~ - use bcryt by default
-- create separate repository with deploy procedures for oauth_server project - IN PROGRESS;
-- ~~use post instead of get for access token endpoint~~ - will not do
-- ~~decouple User scope authentication logic from oauth controller~~
-- ~~get rid of hardcoded roles for User entity~~
+- create separate repository with deploy procedures for oauth_server project:
+  - ~~local~~;
+  - dev;
+  - prod
 - cover with phpunit tests - IN PROGRESS;
 
 Additional notes
@@ -167,4 +163,4 @@ Additional notes
 1. Scopes parameter is required to get access token (if compared to default behaviour of fos oauth server, where
 no scope provided results in all available scopes granted)
 2. App does not require Symfony twig and forms components. Also, there is not fos user bundle dependency.
-I suggest the least dependencies is the best.
+I suggest the least dependencies is best.

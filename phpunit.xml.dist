@@ -31,8 +31,11 @@
     </testsuites>
 
     <filter>
-        <whitelist  processUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
+            <exclude>
+                <file>src/Kernel.php</file>
+            </exclude>
         </whitelist>
     </filter>
 
