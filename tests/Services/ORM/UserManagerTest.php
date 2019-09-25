@@ -2,6 +2,7 @@
 
 namespace Cybalex\OauthServer\Tests\Services\ORM;
 
+use Cybalex\OauthServer\Services\StringCanonicalizer;
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\OauthServer\Services\ORM\UserManager;
 use Cybalex\TestHelpers\ProtectedMethodsTestTrait;
@@ -24,10 +25,16 @@ class UserManagerTest extends TestCase
      */
     private $objectManager;
 
+    /**
+     * @var StringCanonicalizer|MockObject
+     */
+    private $canonicalizer;
+
     protected function setUp(): void
     {
         $this->objectManager = $this->createMock(ObjectManager::class);
         $this->passwordEncoder = $this->createMock(PasswordEncoderInterface::class);
+        $this->canonicalizer = $this->createMock(StringCanonicalizer::class);
     }
 
     public function testCreateUser()
@@ -40,19 +47,31 @@ class UserManagerTest extends TestCase
                 $this->objectManager,
                 $this->passwordEncoder,
                 $supportedScopes,
+                $this->canonicalizer,
             ])
             ->onlyMethods(['getNewUserInstance'])
             ->getMock();
 
         $username = 'John';
+        $usernameCanonical = 'JohnCanonical';
         $email = 'john@mail.com';
+        $emailCanonical = 'john@mail.canonical.com';
         $plainPassword = 'insecure';
         $encodedPassword = 'encodedPassword';
         $salt = 'salt';
 
+        $this->canonicalizer
+            ->expects(static::exactly(2))
+            ->method('canonicalize')
+            ->withConsecutive(['John'], ['john@mail.com'])
+            ->willReturnOnConsecutiveCalls('JohnCanonical', 'john@mail.canonical.com');
+
         $user = $this->createMock(User::class);
         $user->expects(static::once())->method('setUsername')->with($username)->willReturnSelf();
+        $user->expects(static::once())->method('setUsernameCanonical')->with($usernameCanonical)
+            ->willReturnSelf();
         $user->expects(static::once())->method('setEmail')->with($email)->willReturnSelf();
+        $user->expects(static::once())->method('setEmailCanonical')->with($emailCanonical)->willReturnSelf();
         $user->expects(static::once())->method('setPassword')->with($encodedPassword)->willReturnSelf();
         $user->expects(static::once())->method('getSalt')->with()->willReturn($salt);
         $user->expects(static::once())->method('setRoles')->with(['ROLE_USER', 'ROLE_ADMIN'])->willReturnSelf();
@@ -74,7 +93,12 @@ class UserManagerTest extends TestCase
     public function testGetNewUserInstance()
     {
         $supportedScopes = 'user admin';
-        $userManager = new UserManager($this->objectManager, $this->passwordEncoder, $supportedScopes);
+        $userManager = new UserManager(
+            $this->objectManager,
+            $this->passwordEncoder,
+            $supportedScopes,
+            $this->canonicalizer
+        );
 
         /** @var User $actualUser */
         $actualUser = $this->invokeMethod($userManager, 'getNewUserInstance', []);

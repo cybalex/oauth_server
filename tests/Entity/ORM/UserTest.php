@@ -24,12 +24,14 @@ class UserTest extends TestCase
         return [
             ['password', 'p@$$w0rd'],
             ['username', 'John'],
+            ['usernameCanonical', 'userNameCanonical'],
             ['salt', null],
             ['salt', 'r2d2'],
             ['plainPassword', null],
             ['plainPassword', 'insecure'],
-            ['plainPassword', null],
+            ['enabled', true],
             ['email', 'test@domain.com'],
+            ['emailCanonical', 'email@canonical'],
             ['email', null],
             ['roles', ['ROLE_USER']],
         ];

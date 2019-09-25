@@ -4,6 +4,7 @@ namespace Cybalex\OauthServer\Services\ORM;
 
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\OauthServer\Exception\UnsupportedUserScopeException;
+use Cybalex\OauthServer\Services\StringCanonicalizer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
@@ -25,20 +26,28 @@ class UserManager
     private $supportedScopesArray;
 
     /**
+     * @var StringCanonicalizer
+     */
+    private $canonicalizer;
+
+    /**
      * UserManager constructor.
      *
      * @param ObjectManager            $objectManager
      * @param PasswordEncoderInterface $passwordEncoder
      * @param string                   $supportedScopes
+     * @param StringCanonicalizer      $canonicalizer
      */
     public function __construct(
         ObjectManager $objectManager,
         PasswordEncoderInterface $passwordEncoder,
-        string $supportedScopes
+        string $supportedScopes,
+        StringCanonicalizer $canonicalizer
     ) {
         $this->objectManager = $objectManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->supportedScopesArray = explode(' ', $supportedScopes);
+        $this->canonicalizer = $canonicalizer;
     }
 
     /**
@@ -52,9 +61,12 @@ class UserManager
     public function createUser(string $username, string $email, string $plainPassword, array $roles)
     {
         $user = $this->getNewUserInstance();
-        $user->setUsername($username);
-        $user->setEmail($email);
-        $user->setPassword($this->passwordEncoder->encodePassword($plainPassword, $user->getSalt()));
+        $user
+            ->setUsername($username)
+            ->setUsernameCanonical($this->canonicalizer->canonicalize($username))
+            ->setEmail($email)
+            ->setEmailCanonical($this->canonicalizer->canonicalize($email))
+            ->setPassword($this->passwordEncoder->encodePassword($plainPassword, $user->getSalt()));
 
         $e = new UnsupportedUserScopeException();
 
