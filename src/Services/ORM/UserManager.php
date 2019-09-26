@@ -66,7 +66,8 @@ class UserManager
             ->setUsernameCanonical($this->canonicalizer->canonicalize($username))
             ->setEmail($email)
             ->setEmailCanonical($this->canonicalizer->canonicalize($email))
-            ->setPassword($this->passwordEncoder->encodePassword($plainPassword, $user->getSalt()));
+            ->setPassword($this->passwordEncoder->encodePassword($plainPassword, $user->getSalt()))
+            ->setEnabled(true);
 
         $e = new UnsupportedUserScopeException();
 

@@ -75,6 +75,7 @@ class UserManagerTest extends TestCase
         $user->expects(static::once())->method('setPassword')->with($encodedPassword)->willReturnSelf();
         $user->expects(static::once())->method('getSalt')->with()->willReturn($salt);
         $user->expects(static::once())->method('setRoles')->with(['ROLE_USER', 'ROLE_ADMIN'])->willReturnSelf();
+        $user->expects(static::once())->method('setEnabled')->with(true)->willReturnSelf();
 
         $this->passwordEncoder->expects(static::once())->method('encodePassword')->with($plainPassword, $salt)
             ->willReturn($encodedPassword);
