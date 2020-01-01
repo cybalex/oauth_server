@@ -14,17 +14,12 @@ class PreTokenGrantAccessEvent extends Event
 
     /**
      * PreTokenGrantAccessEvent constructor.
-     *
-     * @param Request $request
      */
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
-    /**
-     * @return Request
-     */
     public function getRequest(): Request
     {
         return $this->request;

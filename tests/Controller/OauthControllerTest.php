@@ -83,7 +83,7 @@ class OauthControllerTest extends TestCase
 
         $response = $this->controller->token($this->request);
 
-        $this->assertEquals('{"error":"error message","error_description":null}', $response->getContent());
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame('{"error":"error message","error_description":null}', $response->getContent());
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 }

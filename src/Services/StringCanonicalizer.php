@@ -4,11 +4,6 @@ namespace Cybalex\OauthServer\Services;
 
 class StringCanonicalizer
 {
-    /**
-     * @param string|null $string
-     *
-     * @return string|null
-     */
     public function canonicalize(?string $string): ?string
     {
         if (null === $string) {

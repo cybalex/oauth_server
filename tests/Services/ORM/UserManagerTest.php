@@ -2,9 +2,9 @@
 
 namespace Cybalex\OauthServer\Tests\Services\ORM;
 
-use Cybalex\OauthServer\Services\StringCanonicalizer;
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\OauthServer\Services\ORM\UserManager;
+use Cybalex\OauthServer\Services\StringCanonicalizer;
 use Cybalex\TestHelpers\ProtectedMethodsTestTrait;
 use Doctrine\Common\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;

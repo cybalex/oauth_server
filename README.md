@@ -3,7 +3,7 @@ cybalex/oauth-server
 About
 ----
 cybalex/oauth-server is a stand-alone lightweight oauth2 server, based on 
-[symfony 4.3 skeleton](https://github.com/symfony/skeleton/releases) and 
+[symfony skeleton](https://github.com/symfony/skeleton/releases) and 
 [fos oauth server bundle](https://github.com/FriendsOfSymfony/FOSOAuthServerBundle).
 
 [![Build Status](https://travis-ci.org/cybalex/oauth_server.svg?branch=master)](https://travis-ci.org/cybalex/oauth_server)
@@ -132,9 +132,9 @@ Usage example
 ----
 Use Postman or curl or whatever analog utility you like to generate an access token for user **test**:
 
-URL example: http://localhost:8081/oauth/v2/token?client_id=4_6184oy4vhtcswgc4gco0okwcwok0okg0888g0c0wo808c4wow4&client_secret=2o5cvobsdaasc88840084kw4koco0o40ockso4ksgs84gwws44&grant_type=password&username=test&password=test&scopes=user%20admin%20profile_edit
+URL example: http://localhost:8081/oauth/v2/token?client_id=4_6184oy4vhtcswgc4gco0okwcwok0okg0888g0c0wo808c4wow4&client_secret=2o5cvobsdaasc88840084kw4koco0o40ockso4ksgs84gwws44&grant_type=password&username=test&password=test
 
-URL explained: http://localhost:8082/oauth/v2/token?client_id=[primary-key-from-mysql-client-table]_[random-id-from-mysql-client-table]&client_secret=[secret_from_client_table]&username=[username_from_user_table]&password=[user-password-from-mysql-user-table]&grant_type=password&scopes=[space-separated-list-of-scopes]
+URL explained: http://localhost:8082/oauth/v2/token?client_id=[primary-key-from-mysql-client-table]_[random-id-from-mysql-client-table]&client_secret=[secret_from_client_table]&username=[username_from_user_table]&password=[user-password-from-mysql-user-table]&grant_type=password]
 
 The sample output should be:
 ```json
@@ -142,25 +142,9 @@ The sample output should be:
   "access_token":"MTkzNmRlNjU2MmJhZWZjMTE3MTc5ZTg2YjU3MjE2ZGY3NGMwN2Q0OTNhNzFiMDE1ZmY3Mjg0ZTQ1YzI5ZGY0Nw",
   "expires_in":"3600",
   "token_type":"Bearer",
-  "scope":"user admin profile_edit",
   "refresh_token":"MmNhNDQxNTBhYjU1YmZiNTYwOTc5NWZhMDMzMWRkNzVkNDMxYjkwODk2YTQwOGIzOTIyZmFkMWRkOTQzNjE4Zg"
 }
 ```
 
 On production environment oauth server should share user, access_token, auth_code, client and refresh_token tables with
 other parts of application, where access token is used.
-
-ToDo list
-----
-- create separate repository with deploy procedures for oauth_server project:
-  - ~~local~~;
-  - dev;
-  - prod
-- cover with phpunit tests - IN PROGRESS;
-
-Additional notes
-----
-1. Scopes parameter is required to get access token (if compared to default behaviour of fos oauth server, where
-no scope provided results in all available scopes granted)
-2. App does not require Symfony twig and forms components. Also, there is not fos user bundle dependency.
-I suggest the least dependencies is best.

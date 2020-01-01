@@ -7,8 +7,8 @@ use Cybalex\OauthServer\Services\ORM\UserProvider;
 use Cybalex\TestHelpers\ProtectedMethodsTestTrait;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -45,9 +45,6 @@ class UserProviderTest extends TestCase
         $this->objectRepository = $this->createMock(ObjectRepository::class);
     }
 
-    /**
-     * @return array
-     */
     public function userClassProvider(): array
     {
         return [
@@ -59,8 +56,6 @@ class UserProviderTest extends TestCase
 
     /**
      * @dataProvider userClassProvider
-     * @param string $className
-     * @param bool $result
      */
     public function testSupportsClass(string $className, bool $result)
     {
@@ -69,7 +64,7 @@ class UserProviderTest extends TestCase
         $userProvider = new UserProvider($this->objectManager);
 
         $this->objectRepository->expects(static::once())->method('getClassName')->willReturn(User::class);
-        $this->assertEquals($result, $userProvider->supportsClass($className));
+        $this->assertSame($result, $userProvider->supportsClass($className));
     }
 
     public function testRefreshUserThrowsException()

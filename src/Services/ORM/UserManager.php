@@ -26,10 +26,6 @@ class UserManager
 
     /**
      * UserManager constructor.
-     *
-     * @param ObjectManager            $objectManager
-     * @param PasswordEncoderInterface $passwordEncoder
-     * @param StringCanonicalizer      $canonicalizer
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -41,12 +37,6 @@ class UserManager
         $this->canonicalizer = $canonicalizer;
     }
 
-    /**
-     * @param string $username
-     * @param string $email
-     * @param string $plainPassword
-     * @param array  $roles
-     */
     public function createUser(string $username, string $email, string $plainPassword, array $roles)
     {
         $user = $this->getNewUserInstance();
