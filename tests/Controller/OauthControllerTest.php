@@ -3,12 +3,16 @@
 namespace Cybalex\OauthServer\Tests\Controller;
 
 use Cybalex\OauthServer\Controller\OauthController;
+use Cybalex\OauthServer\Event\PreTokenGrantAccessEvent;
+use Cybalex\OauthServer\Oauth2Events;
 use Doctrine\Common\Persistence\ObjectManager;
 use OAuth2\OAuth2;
+use OAuth2\OAuth2ServerException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class OauthControllerTest extends TestCase
 {
@@ -46,15 +50,40 @@ class OauthControllerTest extends TestCase
         $this->request = $this->createMock(Request::class);
     }
 
-    public function testTokenWithoutScopes()
+    public function testToken()
     {
-        $this->request->expects(static::once())->method('get')->with('scope')->willReturn(null);
+        $expectedEvent = new PreTokenGrantAccessEvent($this->request);
+        $this->eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(Oauth2Events::PRE_TOKEN_GRANT_ACCESS, $expectedEvent);
 
-        $expectedResponseText = '{"error":400,"error_description":"Empty or missing scope is provided in the requested"}';
-        $expectedResponseStatusCode = 400;
+        $response = $this->createMock(Response::class);
+        $this->oauth2
+            ->expects($this->once())
+            ->method('grantAccessToken')
+            ->with($this->request)
+            ->willReturn($response);
+
+        $this->assertSame($response, $this->controller->token($this->request));
+    }
+
+    public function testOAuth2ServerException()
+    {
+        $expectedEvent = new PreTokenGrantAccessEvent($this->request);
+        $this->eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(Oauth2Events::PRE_TOKEN_GRANT_ACCESS, $expectedEvent);
+
+        $expectedException = new OAuth2ServerException(Response::HTTP_BAD_REQUEST, 'error message');
+
+        $this->oauth2->expects($this->once())->method('grantAccessToken')->with($this->request)
+            ->willThrowException($expectedException);
+
         $response = $this->controller->token($this->request);
 
-        $this->assertSame($expectedResponseText, $response->getContent());
-        $this->assertSame($expectedResponseStatusCode, $response->getStatusCode());
+        $this->assertEquals('{"error":"error message","error_description":null}', $response->getContent());
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 }

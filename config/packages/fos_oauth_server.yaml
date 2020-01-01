@@ -7,6 +7,5 @@ fos_oauth_server:
   service:
     user_provider: Cybalex\OauthServer\Services\ORM\UserProvider
     options:
-      supported_scopes: '%env(resolve:OAUTH_SERVER_SCOPES)%'
       access_token_lifetime: '%env(resolve:OAUTH_TOKEN_LIFETIME)%'
       token_type: '%env(resolve:OAUTH_TOKEN_TYPE)%'

@@ -9,8 +9,6 @@ parameters:
     db_user: '%env(string:DB_USER)%'
     db_password: '%env(string:DB_PASSWORD)%'
 
-    supported_user_scopes: '%env(resolve:OAUTH_SERVER_SCOPES)%'
-
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -46,10 +44,3 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@Symfony\Component\Security\Core\Encoder\NativePasswordEncoder'
-            - '%supported_user_scopes%'
-
-    Cybalex\OauthServer\EventSubscriber\TokenGrantSubscriber:
-        arguments:
-            - '@Cybalex\OauthServer\Services\UserScopeAuthenticator'
-        tags:
-            - { name: kernel.event_subscriber, event: PreTokenGrantAccessEvent }

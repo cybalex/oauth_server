@@ -53,11 +53,6 @@ class OauthController extends AbstractController
      */
     public function token(Request $request)
     {
-        if (!$request->get('scope')) {
-            return (new OAuth2ServerException(400, 400, 'Empty or missing scope is provided in the requested'))
-                ->getHttpResponse();
-        }
-
         try {
             $event = new PreTokenGrantAccessEvent($request);
             $this->eventDispatcher->dispatch(Oauth2Events::PRE_TOKEN_GRANT_ACCESS, $event);

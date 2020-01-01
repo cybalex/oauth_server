@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -186,37 +186,5 @@ class User implements UserInterface, \Serializable
     public function getEnabled(): bool
     {
         return $this->enabled;
-    }
-
-    /**
-     * @see \Serializable::serialize()
-     */
-    public function serialize()
-    {
-        return serialize(
-            [
-                $this->id,
-                $this->password,
-                $this->salt,
-                $this->username,
-                $this->email,
-            ]
-        );
-    }
-
-    /**
-     * @see \Serializable::unserialize()
-     */
-    public function unserialize($serialized)
-    {
-        $data = unserialize($serialized);
-
-        list(
-            $this->id,
-            $this->password,
-            $this->salt,
-            $this->username,
-            $this->email
-        ) = $data;
     }
 }

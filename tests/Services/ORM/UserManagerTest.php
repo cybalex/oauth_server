@@ -39,14 +39,11 @@ class UserManagerTest extends TestCase
 
     public function testCreateUser()
     {
-        $supportedScopes = 'user admin';
-
         /** @var UserManager|MockObject $userManager */
         $userManager = $this->getMockBuilder(UserManager::class)
             ->setConstructorArgs([
                 $this->objectManager,
                 $this->passwordEncoder,
-                $supportedScopes,
                 $this->canonicalizer,
             ])
             ->onlyMethods(['getNewUserInstance'])
@@ -93,11 +90,9 @@ class UserManagerTest extends TestCase
      */
     public function testGetNewUserInstance()
     {
-        $supportedScopes = 'user admin';
         $userManager = new UserManager(
             $this->objectManager,
             $this->passwordEncoder,
-            $supportedScopes,
             $this->canonicalizer
         );
 
