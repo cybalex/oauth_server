@@ -7,9 +7,15 @@ use Cybalex\OauthServer\Services\ORM\UserProvider;
 use Cybalex\TestHelpers\ProtectedMethodsTestTrait;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserChild extends User
@@ -70,6 +76,7 @@ class UserProviderTest extends TestCase
     public function testRefreshUserThrowsException()
     {
         $user = $this->createMock(UserInterface::class);
+        /** @var UserProvider|MockObject $userProvider */
         $userProvider = $this->getMockBuilder(UserProvider::class)->setConstructorArgs([$this->objectManager])
             ->onlyMethods(['supportsClass'])
             ->getMock();
@@ -85,6 +92,7 @@ class UserProviderTest extends TestCase
     {
         $user = $this->createMock(User::class);
         $user->expects(static::once())->method('getId')->with()->willReturn(134);
+        /** @var UserProvider|MockObject $userProvider */
         $userProvider = $this->getMockBuilder(UserProvider::class)->setConstructorArgs([$this->objectManager])
             ->enableOriginalConstructor()
             ->onlyMethods(['supportsClass'])
@@ -113,5 +121,93 @@ class UserProviderTest extends TestCase
             [$this->objectRepository, $this->objectRepository],
             $this->invokeMethodConsecutive($userProvider, 'getUserRepository', [[], []])
         );
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function testLoadUserByUsernameThrowsException()
+    {
+        $username = 'Dart Vader';
+        $exception = new NoResultException();
+
+        $this->expectException(UsernameNotFoundException::class);
+        $this->expectExceptionMessage(
+            'Unable to find an active admin AcmeDemoBundle:User object identified by "Dart Vader".'
+        );
+
+        $query = $this->createMock(AbstractQuery::class);
+        $query->expects($this->once())->method('getSingleResult')->with()->willThrowException($exception);
+
+        $queryBuilder = $this
+            ->getMockBuilder(QueryBuilder::class)
+            ->onlyMethods(['where', 'setParameter', 'getQuery'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $queryBuilder
+            ->expects($this->once())
+            ->method('where')
+            ->with('u.username = :username OR u.email = :email')
+            ->willReturnSelf();
+        $queryBuilder
+            ->expects($this->exactly(2))
+            ->method('setParameter')
+            ->withConsecutive(['username', $username], ['email', $username])
+            ->willReturnSelf();
+        $queryBuilder->expects($this->once())->method('getQuery')->with()->willReturn($query);
+
+        $objectRepository = $this->createMock(EntityRepository::class);
+
+        $objectRepository->expects($this->once())->method('createQueryBuilder')->with('u')
+            ->willReturn($queryBuilder);
+
+        $this->objectManager->expects($this->once())->method('getRepository')->with(User::class)
+            ->willReturn($objectRepository);
+
+        $userProvider = new UserProvider($this->objectManager);
+
+        $userProvider->loadUserByUsername($username);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function testLoadUserByUsernameWithoutException()
+    {
+        $username = 'John Doe';
+
+        $user = $this->createMock(UserInterface::class);
+
+        $query = $this->createMock(AbstractQuery::class);
+        $query->expects($this->once())->method('getSingleResult')->with()->willReturn($user);
+
+        $queryBuilder = $this
+            ->getMockBuilder(QueryBuilder::class)
+            ->onlyMethods(['where', 'setParameter', 'getQuery'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $queryBuilder
+            ->expects($this->once())
+            ->method('where')
+            ->with('u.username = :username OR u.email = :email')
+            ->willReturnSelf();
+        $queryBuilder
+            ->expects($this->exactly(2))
+            ->method('setParameter')
+            ->withConsecutive(['username', $username], ['email', $username])
+            ->willReturnSelf();
+        $queryBuilder->expects($this->once())->method('getQuery')->with()->willReturn($query);
+
+        $objectRepository = $this->createMock(EntityRepository::class);
+
+        $objectRepository->expects($this->once())->method('createQueryBuilder')->with('u')
+            ->willReturn($queryBuilder);
+
+        $this->objectManager->expects($this->once())->method('getRepository')->with(User::class)
+            ->willReturn($objectRepository);
+
+        $userProvider = new UserProvider($this->objectManager);
+
+        $this->assertEquals($user, $userProvider->loadUserByUsername($username));
     }
 }

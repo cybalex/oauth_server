@@ -5,8 +5,10 @@ namespace Cybalex\OauthServer\Services\ORM;
 use Cybalex\OauthServer\Entity\ORM\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -24,6 +26,10 @@ class UserProvider implements UserProviderInterface
      */
     private $userRepository = null;
 
+    /**
+     * UserProvider constructor.
+     * @param ObjectManager $objectManager
+     */
     public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
@@ -31,22 +37,24 @@ class UserProvider implements UserProviderInterface
 
     /**
      * @param string $username
-     *
-     * @return mixed|UserInterface
-     *
+     * @return UserInterface
      * @throws NonUniqueResultException
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username): UserInterface
     {
-        $q = $this->getUserRepository()
-            ->createQueryBuilder('u')
+        /** @var QueryBuilder $qb */
+        $qb = $query = $this->getUserRepository()
+            ->createQueryBuilder('u');
+
+        /** @var Query $query */
+        $query = $qb
             ->where('u.username = :username OR u.email = :email')
             ->setParameter('username', $username)
             ->setParameter('email', $username)
             ->getQuery();
 
         try {
-            $user = $q->getSingleResult();
+            $user = $query->getSingleResult();
         } catch (NoResultException $e) {
             $message = sprintf(
                 'Unable to find an active admin AcmeDemoBundle:User object identified by "%s".',
@@ -61,8 +69,7 @@ class UserProvider implements UserProviderInterface
 
     /**
      * @param UserInterface|User $user
-     *
-     * @return object|UserInterface|null
+     * @return UserInterface|object|null
      */
     public function refreshUser(UserInterface $user)
     {
@@ -77,7 +84,6 @@ class UserProvider implements UserProviderInterface
 
     /**
      * @param string $class
-     *
      * @return bool
      */
     public function supportsClass($class)
@@ -87,7 +93,10 @@ class UserProvider implements UserProviderInterface
         return $repositoryClassName === $class || \is_subclass_of($class, $repositoryClassName);
     }
 
-    protected function getUserRepository()
+    /**
+     * @return ObjectRepository
+     */
+    protected function getUserRepository(): ObjectRepository
     {
         if (!$this->userRepository) {
             $this->userRepository = $this->objectManager->getRepository(User::class);
