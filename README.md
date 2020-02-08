@@ -2,12 +2,15 @@ cybalex/oauth-server
 ====
 About
 ----
-cybalex/oauth-server is a stand-alone lightweight oauth2 server, based on 
+cybalex/oauth-server is a stand-alone lightweight oauth2 server microservice, based on 
 [symfony skeleton](https://github.com/symfony/skeleton/releases) and 
 [fos oauth server bundle](https://github.com/FriendsOfSymfony/FOSOAuthServerBundle).
 
 [![Build Status](https://travis-ci.org/cybalex/oauth_server.svg?branch=master)](https://travis-ci.org/cybalex/oauth_server)
 [![Coverage](https://codecov.io/gh/cybalex/oauth_server/branch/master/graph/badge.svg)](https://codecov.io/gh/cybalex/oauth_server)
+
+
+This microservice provides only authentication (issues tokens). It is supposed that this microservice will use the same DB as the application, which endpoints are to be secured with oauth. So it is needed to setup oauth client on the application side.
 
 Installation
 ----
