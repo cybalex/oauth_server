@@ -5,8 +5,8 @@ namespace Cybalex\OauthServer\Services\ORM;
 use Cybalex\OauthServer\Entity\ORM\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -28,7 +28,6 @@ class UserProvider implements UserProviderInterface
 
     /**
      * UserProvider constructor.
-     * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {
@@ -37,7 +36,7 @@ class UserProvider implements UserProviderInterface
 
     /**
      * @param string $username
-     * @return UserInterface
+     *
      * @throws NonUniqueResultException
      */
     public function loadUserByUsername($username): UserInterface
@@ -69,6 +68,7 @@ class UserProvider implements UserProviderInterface
 
     /**
      * @param UserInterface|User $user
+     *
      * @return UserInterface|object|null
      */
     public function refreshUser(UserInterface $user)
@@ -84,6 +84,7 @@ class UserProvider implements UserProviderInterface
 
     /**
      * @param string $class
+     *
      * @return bool
      */
     public function supportsClass($class)
@@ -93,9 +94,6 @@ class UserProvider implements UserProviderInterface
         return $repositoryClassName === $class || \is_subclass_of($class, $repositoryClassName);
     }
 
-    /**
-     * @return ObjectRepository
-     */
     protected function getUserRepository(): ObjectRepository
     {
         if (!$this->userRepository) {
