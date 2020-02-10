@@ -19,8 +19,6 @@ class CreateUserCommand extends Command
 
     /**
      * CreateUserCommand constructor.
-     * @param UserManagerInterface $userManager
-     * @param string|null $name
      */
     public function __construct(UserManagerInterface $userManager, string $name = null)
     {

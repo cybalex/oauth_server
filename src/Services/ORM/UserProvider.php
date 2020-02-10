@@ -29,7 +29,6 @@ class UserProvider implements UserProviderInterface
 
     /**
      * UserProvider constructor.
-     * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {
@@ -39,7 +38,6 @@ class UserProvider implements UserProviderInterface
     /**
      * @param string $username
      *
-     * @return UserInterface
      * @throws NonUniqueResultException
      */
     public function loadUserByUsername($username): UserInterface
@@ -97,17 +95,7 @@ class UserProvider implements UserProviderInterface
         return $repositoryClassName === $class || \is_subclass_of($class, $repositoryClassName);
     }
 
-    protected function getUserRepository(): ObjectRepository
-    {
-        if (!$this->userRepository) {
-            $this->userRepository = $this->objectManager->getRepository(User::class);
-        }
-
-        return $this->userRepository;
-    }
-
     /**
-     * @param string $token
      * @return UserInterface
      */
     public function getUserByAccessToken(string $token): ?UserInterface
@@ -115,10 +103,19 @@ class UserProvider implements UserProviderInterface
         if (
             $token = $this->objectManager->getRepository(AccessToken::class)->findOneBy(['token' => $token])
         ) {
-            /** @var AccessToken $token */
+            /* @var AccessToken $token */
             return $token->getUser();
         }
 
         return null;
+    }
+
+    protected function getUserRepository(): ObjectRepository
+    {
+        if (!$this->userRepository) {
+            $this->userRepository = $this->objectManager->getRepository(User::class);
+        }
+
+        return $this->userRepository;
     }
 }

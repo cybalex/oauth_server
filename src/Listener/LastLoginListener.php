@@ -23,8 +23,6 @@ class LastLoginListener implements EventSubscriberInterface
 
     /**
      * LastLoginListener constructor.
-     * @param UserManagerInterface $userManager
-     * @param UserProvider $userProvider
      */
     public function __construct(UserManagerInterface $userManager, UserProvider $userProvider)
     {
@@ -33,7 +31,7 @@ class LastLoginListener implements EventSubscriberInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -41,7 +39,6 @@ class LastLoginListener implements EventSubscriberInterface
     }
 
     /**
-     * @param TokenGrantedEvent $event
      * @throws Exception
      */
     public function updateLastLogin(TokenGrantedEvent $event): void

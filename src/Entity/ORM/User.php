@@ -207,8 +207,6 @@ class User implements UserInterface
 
     /**
      * Gets the last login time.
-     *
-     * @return DateTime|null
      */
     public function getLastLogin(): ?DateTime
     {

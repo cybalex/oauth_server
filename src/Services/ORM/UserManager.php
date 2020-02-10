@@ -28,9 +28,6 @@ class UserManager implements UserManagerInterface
 
     /**
      * UserManager constructor.
-     * @param ObjectManager $objectManager
-     * @param PasswordEncoderInterface $passwordEncoder
-     * @param StringCanonicalizer $canonicalizer
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -43,7 +40,7 @@ class UserManager implements UserManagerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function create(string $username, string $email, string $plainPassword, array $roles): void
     {
@@ -68,7 +65,7 @@ class UserManager implements UserManagerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function update(UserInterface $user): void
     {
@@ -76,9 +73,6 @@ class UserManager implements UserManagerInterface
         $this->objectManager->flush();
     }
 
-    /**
-     * @return User
-     */
     protected function getNewUserInstance(): User
     {
         return new User();

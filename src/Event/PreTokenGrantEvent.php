@@ -14,7 +14,6 @@ class PreTokenGrantEvent extends Event
 
     /**
      * PreTokenGrantAccessEvent constructor.
-     * @param Request $request
      */
     public function __construct(Request $request)
     {

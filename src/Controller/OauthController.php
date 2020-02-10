@@ -31,9 +31,6 @@ class OauthController extends AbstractController
 
     /**
      * OauthController constructor.
-     * @param ObjectManager $objectManager
-     * @param OAuth2 $server
-     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -45,10 +42,6 @@ class OauthController extends AbstractController
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     */
     public function token(Request $request): Response
     {
         try {
