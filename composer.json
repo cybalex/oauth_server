@@ -1,6 +1,7 @@
 {
+    "name": "cybalex/oauth_server",
     "type": "project",
-    "description": "Oauth2 Server",
+    "description": "Lightweight Oauth2 Server",
     "keywords": ["oauth", "oauth2", "server"],
     "homepage": "https://github.com/cybalex/oauth_server",
     "license": "MIT",
