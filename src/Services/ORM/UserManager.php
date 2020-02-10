@@ -4,10 +4,12 @@ namespace Cybalex\OauthServer\Services\ORM;
 
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\OauthServer\Services\StringCanonicalizer;
+use Cybalex\OauthServer\Services\UserManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserManager
+class UserManager implements UserManagerInterface
 {
     /**
      * @var ObjectManager
@@ -26,6 +28,9 @@ class UserManager
 
     /**
      * UserManager constructor.
+     * @param ObjectManager $objectManager
+     * @param PasswordEncoderInterface $passwordEncoder
+     * @param StringCanonicalizer $canonicalizer
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -37,7 +42,10 @@ class UserManager
         $this->canonicalizer = $canonicalizer;
     }
 
-    public function createUser(string $username, string $email, string $plainPassword, array $roles)
+    /**
+     * @inheritdoc
+     */
+    public function create(string $username, string $email, string $plainPassword, array $roles): void
     {
         $user = $this->getNewUserInstance();
         $user
@@ -59,6 +67,18 @@ class UserManager
         $this->objectManager->flush();
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function update(UserInterface $user): void
+    {
+        $this->objectManager->persist($user);
+        $this->objectManager->flush();
+    }
+
+    /**
+     * @return User
+     */
     protected function getNewUserInstance(): User
     {
         return new User();

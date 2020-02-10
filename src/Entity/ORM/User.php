@@ -2,6 +2,7 @@
 
 namespace Cybalex\OauthServer\Entity\ORM;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -53,6 +54,12 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var DateTime|null
+     * @ORM\Column(name="last_login", type="datetime", nullable=true)
+     */
+    private $lastLogin;
+
+    /**
      * @ORM\Column(name="enabled", type="boolean")
      */
     private $enabled;
@@ -73,7 +80,7 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function setUsername(string $username): User
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
@@ -85,7 +92,7 @@ class User implements UserInterface
         return $this->username;
     }
 
-    public function setUsernameCanonical(string $usernameCanonical): User
+    public function setUsernameCanonical(string $usernameCanonical): self
     {
         $this->usernameCanonical = $usernameCanonical;
 
@@ -97,7 +104,7 @@ class User implements UserInterface
         return $this->usernameCanonical;
     }
 
-    public function setSalt(?string $salt): User
+    public function setSalt(?string $salt): self
     {
         $this->salt = $salt;
 
@@ -109,7 +116,7 @@ class User implements UserInterface
         return $this->salt;
     }
 
-    public function setPassword($password): User
+    public function setPassword($password): self
     {
         $this->password = $password;
 
@@ -121,14 +128,14 @@ class User implements UserInterface
         return $this->password;
     }
 
-    public function setPlainPassword(?string $plainPassword): User
+    public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
 
         return $this;
     }
 
-    public function setRoles(array $roles): User
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -145,14 +152,14 @@ class User implements UserInterface
         return $this->roles;
     }
 
-    public function eraseCredentials(): User
+    public function eraseCredentials(): self
     {
         $this->plainPassword = null;
 
         return $this;
     }
 
-    public function setEmail(?string $email): User
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 
@@ -164,7 +171,7 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function setEmailCanonical(string $emailCanonical): User
+    public function setEmailCanonical(string $emailCanonical): self
     {
         $this->emailCanonical = $emailCanonical;
 
@@ -176,7 +183,7 @@ class User implements UserInterface
         return $this->emailCanonical;
     }
 
-    public function setEnabled($enabled): User
+    public function setEnabled($enabled): self
     {
         $this->enabled = $enabled;
 
@@ -186,5 +193,25 @@ class User implements UserInterface
     public function getEnabled(): bool
     {
         return $this->enabled;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLastLogin(DateTime $time = null): self
+    {
+        $this->lastLogin = $time;
+
+        return $this;
+    }
+
+    /**
+     * Gets the last login time.
+     *
+     * @return DateTime|null
+     */
+    public function getLastLogin(): ?DateTime
+    {
+        return $this->lastLogin;
     }
 }

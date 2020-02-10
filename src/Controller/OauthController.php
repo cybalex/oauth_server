@@ -2,8 +2,8 @@
 
 namespace Cybalex\OauthServer\Controller;
 
-use Cybalex\OauthServer\Event\PreTokenGrantAccessEvent;
-use Cybalex\OauthServer\Oauth2Events;
+use Cybalex\OauthServer\Event\PreTokenGrantEvent;
+use Cybalex\OauthServer\Event\TokenGrantedEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 use OAuth2\OAuth2;
 use OAuth2\OAuth2ServerException;
@@ -31,6 +31,9 @@ class OauthController extends AbstractController
 
     /**
      * OauthController constructor.
+     * @param ObjectManager $objectManager
+     * @param OAuth2 $server
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -43,15 +46,25 @@ class OauthController extends AbstractController
     }
 
     /**
+     * @param Request $request
      * @return Response
      */
-    public function token(Request $request)
+    public function token(Request $request): Response
     {
         try {
-            $event = new PreTokenGrantAccessEvent($request);
-            $this->eventDispatcher->dispatch(Oauth2Events::PRE_TOKEN_GRANT_ACCESS, $event);
+            $event = new PreTokenGrantEvent($request);
+            $this->eventDispatcher->dispatch($event);
 
-            return $this->server->grantAccessToken($request);
+            $response = $this->server->grantAccessToken($request);
+
+            $userId = intval(current(explode('_', $request->get('client_id'))));
+
+            $successEvent = new TokenGrantedEvent($request, $response);
+
+            /** @var TokenGrantedEvent $successEvent */
+            $successEvent = $this->eventDispatcher->dispatch($successEvent);
+
+            return $successEvent->getResponse();
         } catch (OAuth2ServerException $e) {
             return $e->getHttpResponse();
         }

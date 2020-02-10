@@ -2,6 +2,7 @@
 
 namespace Cybalex\OauthServer\Services\ORM;
 
+use Cybalex\OauthServer\Entity\ORM\AccessToken;
 use Cybalex\OauthServer\Entity\ORM\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -28,6 +29,7 @@ class UserProvider implements UserProviderInterface
 
     /**
      * UserProvider constructor.
+     * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {
@@ -37,6 +39,7 @@ class UserProvider implements UserProviderInterface
     /**
      * @param string $username
      *
+     * @return UserInterface
      * @throws NonUniqueResultException
      */
     public function loadUserByUsername($username): UserInterface
@@ -101,5 +104,21 @@ class UserProvider implements UserProviderInterface
         }
 
         return $this->userRepository;
+    }
+
+    /**
+     * @param string $token
+     * @return UserInterface
+     */
+    public function getUserByAccessToken(string $token): ?UserInterface
+    {
+        if (
+            $token = $this->objectManager->getRepository(AccessToken::class)->findOneBy(['token' => $token])
+        ) {
+            /** @var AccessToken $token */
+            return $token->getUser();
+        }
+
+        return null;
     }
 }

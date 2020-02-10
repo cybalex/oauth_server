@@ -13,7 +13,7 @@ class CreateUserCommandTest extends TestCase
     {
         $userManager = $this->createMock(UserManager::class);
 
-        $userManager->expects(static::once())->method('createUser')
+        $userManager->expects(static::once())->method('create')
             ->with('john', 'john.smith@mail.com', 'p@ssw0rd', ['user', 'admin']);
 
         $expectedOutput = <<<TEXT

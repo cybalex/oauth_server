@@ -3,8 +3,8 @@
 namespace Cybalex\OauthServer\Tests\Controller;
 
 use Cybalex\OauthServer\Controller\OauthController;
-use Cybalex\OauthServer\Event\PreTokenGrantAccessEvent;
-use Cybalex\OauthServer\Oauth2Events;
+use Cybalex\OauthServer\Event\PreTokenGrantEvent;
+use Cybalex\OauthServer\Event\TokenGrantedEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 use OAuth2\OAuth2;
 use OAuth2\OAuth2ServerException;
@@ -52,13 +52,19 @@ class OauthControllerTest extends TestCase
 
     public function testToken()
     {
-        $expectedEvent = new PreTokenGrantAccessEvent($this->request);
-        $this->eventDispatcher
-            ->expects($this->once())
-            ->method('dispatch')
-            ->with(Oauth2Events::PRE_TOKEN_GRANT_ACCESS, $expectedEvent);
-
+        $expectedEventPre = new PreTokenGrantEvent($this->request);
         $response = $this->createMock(Response::class);
+        $request = $this->createMock(Request::class);
+        $expectedEventPost = new TokenGrantedEvent($request, $response);
+        $expectedEventPostMock = $this->createMock(TokenGrantedEvent::class);
+        $expectedEventPostMock->expects($this->once())->method('getResponse')->with()->willReturn($response);
+
+        $this->eventDispatcher
+            ->expects($this->exactly(2))
+            ->method('dispatch')
+            ->withConsecutive([$expectedEventPre], [$expectedEventPost])
+            ->willReturnOnConsecutiveCalls($expectedEventPre, $expectedEventPostMock);
+
         $this->oauth2
             ->expects($this->once())
             ->method('grantAccessToken')
@@ -70,11 +76,12 @@ class OauthControllerTest extends TestCase
 
     public function testOAuth2ServerException()
     {
-        $expectedEvent = new PreTokenGrantAccessEvent($this->request);
+        $expectedEvent = new PreTokenGrantEvent($this->request);
         $this->eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with(Oauth2Events::PRE_TOKEN_GRANT_ACCESS, $expectedEvent);
+            ->with($expectedEvent)
+            ->willReturn($expectedEvent);
 
         $expectedException = new OAuth2ServerException(Response::HTTP_BAD_REQUEST, 'error message');
 

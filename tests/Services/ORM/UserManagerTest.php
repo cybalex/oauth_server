@@ -10,6 +10,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserManagerTest extends TestCase
 {
@@ -82,7 +83,7 @@ class UserManagerTest extends TestCase
         $this->objectManager->expects(static::once())->method('persist')->with($user);
         $this->objectManager->expects(static::once())->method('flush')->with();
 
-        $userManager->createUser($username, $email, $plainPassword, ['user', 'admin']);
+        $userManager->create($username, $email, $plainPassword, ['user', 'admin']);
     }
 
     /**
@@ -104,5 +105,22 @@ class UserManagerTest extends TestCase
         $expectedUser->setSalt(null);
 
         $this->assertEquals($actualUser, $expectedUser);
+    }
+
+    public function testUpdate()
+    {
+        $user = $this->createMock(UserInterface::class);
+
+        $userManager = new UserManager(
+            $this->objectManager,
+            $this->passwordEncoder,
+            $this->canonicalizer
+        );
+
+        $this->objectManager->expects($this->once())->method('persist')->with($user);
+        $this->objectManager->expects($this->once())->method('flush')->with();
+
+        $userManager->update($user);
+
     }
 }

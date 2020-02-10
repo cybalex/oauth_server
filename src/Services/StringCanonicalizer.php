@@ -11,10 +11,9 @@ class StringCanonicalizer
         }
 
         $encoding = \mb_detect_encoding($string);
-        $result = $encoding
-            ? \mb_convert_case($string, MB_CASE_LOWER, $encoding)
-            : \mb_convert_case($string, MB_CASE_LOWER);
 
-        return $result;
+        return $encoding
+            ? \mb_convert_case($string, MB_CASE_LOWER, $encoding)
+            : \mb_convert_case($string, MB_CASE_LOWER);lt;
     }
 }

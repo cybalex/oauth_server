@@ -2,10 +2,10 @@
 
 namespace Cybalex\OauthServer\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\EventDispatcher\Event;
 
-class PreTokenGrantAccessEvent extends Event
+class PreTokenGrantEvent extends Event
 {
     /**
      * @var Request
@@ -14,6 +14,7 @@ class PreTokenGrantAccessEvent extends Event
 
     /**
      * PreTokenGrantAccessEvent constructor.
+     * @param Request $request
      */
     public function __construct(Request $request)
     {

@@ -2,6 +2,7 @@
 
 namespace Cybalex\OauthServer\Tests\Services\ORM;
 
+use Cybalex\OauthServer\Entity\ORM\AccessToken;
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\OauthServer\Services\ORM\UserProvider;
 use Cybalex\TestHelpers\ProtectedMethodsTestTrait;
@@ -209,5 +210,40 @@ class UserProviderTest extends TestCase
         $userProvider = new UserProvider($this->objectManager);
 
         $this->assertEquals($user, $userProvider->loadUserByUsername($username));
+    }
+
+    public function userProvider()
+    {
+        $user = $this->createMock(User::class);
+        $token = $this->createMock(AccessToken::class);
+
+        return [
+            [$token, $user],
+            [null, null],
+        ];
+    }
+
+    /**
+     * @dataProvider userProvider
+     * @param AccessToken|MockObject|null $accessToken
+     * @param UserInterface|MockObject|null $result
+     */
+    public function testGetUserByAccessToken($accessToken, ?UserInterface $result)
+    {
+        $token = 'NTU2YjdmZGM2NmRiMjY2YzRkZjVmMDgyZDhmZDBiNjg1Zj';
+
+        if ($accessToken) {
+            $accessToken->expects($this->once())->method('getUser')->with()->willReturn($result);
+        }
+
+        $objectRepository = $this->createMock(ObjectRepository::class);
+        $objectRepository->expects($this->once())->method('findOneBy')->with(['token' => $token])
+            ->willReturn($accessToken);
+
+        $this->objectManager->expects($this->once())->method('getRepository')->with(AccessToken::class)
+            ->willReturn($objectRepository);
+
+        $userProvider = new UserProvider($this->objectManager);
+        $this->assertEquals($result, $userProvider->getUserByAccessToken($token));
     }
 }

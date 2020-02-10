@@ -2,7 +2,7 @@
 
 namespace Cybalex\OauthServer\Command;
 
-use Cybalex\OauthServer\Services\ORM\UserManager;
+use Cybalex\OauthServer\Services\UserManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,11 +13,16 @@ class CreateUserCommand extends Command
     protected static $defaultName = 'oauth-server:user:create';
 
     /**
-     * @var UserManager
+     * @var UserManagerInterface
      */
     private $userManager;
 
-    public function __construct(UserManager $userManager, string $name = null)
+    /**
+     * CreateUserCommand constructor.
+     * @param UserManagerInterface $userManager
+     * @param string|null $name
+     */
+    public function __construct(UserManagerInterface $userManager, string $name = null)
     {
         parent::__construct($name);
 
@@ -44,7 +49,7 @@ class CreateUserCommand extends Command
             '',
         ]);
 
-        $this->userManager->createUser(
+        $this->userManager->create(
             $input->getOption('username'),
             $input->getOption('email'),
             $input->getOption('password'),

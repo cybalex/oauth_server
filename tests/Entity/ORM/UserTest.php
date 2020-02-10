@@ -4,6 +4,7 @@ namespace Cybalex\OauthServer\Tests\Entity\ORM;
 
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\TestHelpers\GettersAndSettersTestTrait;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
@@ -34,6 +35,8 @@ class UserTest extends TestCase
             ['emailCanonical', 'email@canonical'],
             ['email', null],
             ['roles', ['ROLE_USER']],
+            ['lastLogin', null],
+            ['lastLogin', new DateTime()],
         ];
     }
 
