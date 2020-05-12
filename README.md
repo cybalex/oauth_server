@@ -10,7 +10,8 @@ cybalex/oauth-server is a stand-alone lightweight oauth2 server microservice, ba
 [![Coverage](https://codecov.io/gh/cybalex/oauth_server/branch/master/graph/badge.svg)](https://codecov.io/gh/cybalex/oauth_server)
 
 
-This microservice provides only authentication (issues tokens). It is supposed that this microservice will use the same DB as the application, which endpoints are to be secured with oauth. So it is needed to setup oauth client on the application side.
+This microservice provides only authentication functional. This microservice should use the same DB as the 
+application. To use this microservice You will probably need to set up oauth client on the application side.
 
 Installation
 ----
@@ -18,8 +19,8 @@ Installation
 ```shell script
 git clone git@github.com:cybalex/oauth_server.git
 ```
-- setup php-fpm, nginx, and mysql server. 
-Here below is the example docker-compose file I used:
+- setup `php-fpm`, `nginx`, and `mysql` server. 
+Below is an example docker-compose file, which can be used:
 
 ```yaml
 //docker-compose.yml
@@ -77,7 +78,7 @@ upstream oauth_fastcgi {
 }
 
 server {
-    #better make it 443 and add sertificates
+    #better make it 443 and add certificates
     listen 80;
 
     server_name oauth.local www.oauth.local;
@@ -108,8 +109,8 @@ server {
 }
 ```
 
-- Make sure to create .env.local file in the root directory of the project by copying .env.local.dist file. Modify it
-according to your needs
+- Make sure to create `.env.local` file in the root directory of the project by copying .env.local.dist file. Modify it
+according to your needs.
 
 - Run the containers
 ```shell script
@@ -125,15 +126,15 @@ php bin/console fos:oauth-server:create-client --grant-type=password;
 bin/console oauth-server:user:create --username=test --email=test@domain.com --password=test;
 ```
 
-Grant type `password` requires client password and username to generate a token. Read more about possible values 
+Grant type `password` requires client password and username to generate a token. Read more about other grant types 
 at [oauth2 official page](https://oauth.net/2/).
 
-!!!!ATTENTION do not run doctrine:schema:update in production env if the project is using production database :D. Use
-doctrine migrations instead!
+!!!!ATTENTION: do not run `doctrine:schema:update` in production environment if the project is using a production database.
+Use a doctrine migrations instead!
 
 Usage example
 ----
-Use Postman or curl or whatever analog utility you like to generate an access token for user **test**:
+Use Postman or curl or whatever alternative utility you like to generate an `access_token` for user **test**:
 
 URL example: http://localhost:8081/oauth/v2/token?client_id=4_6184oy4vhtcswgc4gco0okwcwok0okg0888g0c0wo808c4wow4&client_secret=2o5cvobsdaasc88840084kw4koco0o40ockso4ksgs84gwws44&grant_type=password&username=test&password=test
 
@@ -149,5 +150,5 @@ The sample output should be:
 }
 ```
 
-On production environment oauth server should share user, access_token, auth_code, client and refresh_token tables with
-other parts of application, where access token is used.
+On production environment oauth server should share `user`, `access_token`, `auth_code`, `client` and `refresh_token` 
+tables with other parts of application, where access token is used.
