@@ -5,8 +5,6 @@ namespace Cybalex\OauthServer\Listener;
 use Cybalex\OauthServer\Event\TokenGrantedEvent;
 use Cybalex\OauthServer\Services\ORM\UserProvider;
 use Cybalex\OauthServer\Services\UserManagerInterface;
-use DateTime;
-use Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class LastLoginListener implements EventSubscriberInterface
@@ -23,6 +21,8 @@ class LastLoginListener implements EventSubscriberInterface
 
     /**
      * LastLoginListener constructor.
+     * @param UserManagerInterface $userManager
+     * @param UserProvider $userProvider
      */
     public function __construct(UserManagerInterface $userManager, UserProvider $userProvider)
     {
@@ -39,7 +39,7 @@ class LastLoginListener implements EventSubscriberInterface
     }
 
     /**
-     * @throws Exception
+     * @param TokenGrantedEvent $event
      */
     public function updateLastLogin(TokenGrantedEvent $event): void
     {
@@ -52,7 +52,7 @@ class LastLoginListener implements EventSubscriberInterface
                 return;
             }
 
-            $user->setLastLogin(new DateTime());
+            $user->setLastLogin(new \DateTime());
             $this->userManager->update($user);
         }
     }

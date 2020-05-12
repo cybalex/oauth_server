@@ -75,11 +75,18 @@ class User implements UserInterface
         $this->salt = md5(uniqid(null, true));
     }
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
+    /**
+     * @param string $username
+     * @return $this
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -87,11 +94,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * @param string $usernameCanonical
+     * @return $this
+     */
     public function setUsernameCanonical(string $usernameCanonical): self
     {
         $this->usernameCanonical = $usernameCanonical;
@@ -99,11 +113,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getUsernameCanonical(): string
     {
         return $this->usernameCanonical;
     }
 
+    /**
+     * @param string|null $salt
+     * @return $this
+     */
     public function setSalt(?string $salt): self
     {
         $this->salt = $salt;
@@ -111,11 +132,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSalt(): ?string
     {
         return $this->salt;
     }
 
+    /**
+     * @param $password
+     * @return $this
+     */
     public function setPassword($password): self
     {
         $this->password = $password;
@@ -123,11 +151,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @param string|null $plainPassword
+     * @return $this
+     */
     public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
@@ -135,6 +170,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param array $roles
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -142,16 +181,25 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
+    /**
+     * @return array
+     */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
+    /**
+     * @return $this
+     */
     public function eraseCredentials(): self
     {
         $this->plainPassword = null;
@@ -159,6 +207,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param string|null $email
+     * @return $this
+     */
     public function setEmail(?string $email): self
     {
         $this->email = $email;
@@ -166,11 +218,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $emailCanonical
+     * @return $this
+     */
     public function setEmailCanonical(string $emailCanonical): self
     {
         $this->emailCanonical = $emailCanonical;
@@ -178,11 +237,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getEmailCanonical(): string
     {
         return $this->emailCanonical;
     }
 
+    /**
+     * @param $enabled
+     * @return $this
+     */
     public function setEnabled($enabled): self
     {
         $this->enabled = $enabled;
@@ -190,13 +256,17 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getEnabled(): bool
     {
         return $this->enabled;
     }
 
     /**
-     * {@inheritdoc}
+     * @param DateTime|null $time
+     * @return $this
      */
     public function setLastLogin(DateTime $time = null): self
     {

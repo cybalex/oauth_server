@@ -10,6 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateUserCommand extends Command
 {
+    /**
+     * @var string
+     */
     protected static $defaultName = 'oauth-server:user:create';
 
     /**
@@ -19,6 +22,8 @@ class CreateUserCommand extends Command
 
     /**
      * CreateUserCommand constructor.
+     * @param UserManagerInterface $userManager
+     * @param string|null $name
      */
     public function __construct(UserManagerInterface $userManager, string $name = null)
     {

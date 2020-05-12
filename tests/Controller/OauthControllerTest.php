@@ -17,11 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 class OauthControllerTest extends TestCase
 {
     /**
-     * @var ObjectManager|MockObject
-     */
-    private $objectManager;
-
-    /**
      * @var OAuth2|MockObject
      */
     private $oauth2;
@@ -43,10 +38,11 @@ class OauthControllerTest extends TestCase
 
     public function setUp(): void
     {
-        $this->objectManager = $this->createMock(ObjectManager::class);
+        /** @var ObjectManager|MockObject $objectManager */
+        $objectManager = $this->createMock(ObjectManager::class);
         $this->oauth2 = $this->createMock(OAuth2::class);
         $this->eventDispatcher = $this->createMock(EventDispatcher::class);
-        $this->controller = new OauthController($this->objectManager, $this->oauth2, $this->eventDispatcher);
+        $this->controller = new OauthController($objectManager, $this->oauth2, $this->eventDispatcher);
         $this->request = $this->createMock(Request::class);
     }
 

@@ -20,6 +20,8 @@ class TokenGrantedEvent extends Event
 
     /**
      * TokenGrantedEvent constructor.
+     * @param Request $request
+     * @param Response $response
      */
     public function __construct(Request $request, Response $response)
     {
@@ -28,6 +30,7 @@ class TokenGrantedEvent extends Event
     }
 
     /**
+     * @param Response $response
      * @return TokenGrantedEvent
      */
     public function setResponse(Response $response): self
@@ -37,11 +40,17 @@ class TokenGrantedEvent extends Event
         return $this;
     }
 
+    /**
+     * @return Response
+     */
     public function getResponse(): Response
     {
         return $this->response;
     }
 
+    /**
+     * @return Request
+     */
     public function getRequest(): Request
     {
         return $this->request;
