@@ -8,6 +8,9 @@ parameters:
     db_host: '%env(string:DB_HOST)%'
     db_user: '%env(string:DB_USER)%'
     db_password: '%env(string:DB_PASSWORD)%'
+    allow_origin: '%env(string:CORS_ALLOW_ORIGIN)%'
+    allow_methods: 'GET,POST,PUT,PATCH,OPTIONS'
+    allow_headers: '%env(string:CORS_ALLOW_HEADERS)%'
 
 services:
     # default configuration for services in *this* file
@@ -44,3 +47,13 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@Symfony\Component\Security\Core\Encoder\NativePasswordEncoder'
+
+    Cybalex\OauthServer\Listener\CorsListener:
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Cybalex\OauthServer\DTO\CorsConfig:
+        arguments:
+            - '%allow_origin%'
+            - '%allow_methods%'
+            - '%allow_headers%'
