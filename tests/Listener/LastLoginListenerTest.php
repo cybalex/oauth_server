@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Listener;
+namespace Cybalex\OauthServer\Tests\Listener;
 
 use Cybalex\OauthServer\Entity\ORM\User;
 use Cybalex\OauthServer\Event\TokenGrantedEvent;
@@ -9,15 +9,11 @@ use Cybalex\OauthServer\Services\ORM\UserProvider;
 use Cybalex\OauthServer\Services\UserManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class LastLoginListenerTest extends TestCase
 {
-    public function testSubscribedEvents()
+    public function testSubscribedEvents(): void
     {
-        /**
-         *
-         */
         $lastLoginListener = $this->getMockBuilder(LastLoginListener::class)->disableOriginalConstructor()
             ->getMock();
         $this->assertTrue(method_exists($lastLoginListener, 'updateLastLogin'));
@@ -25,12 +21,13 @@ class LastLoginListenerTest extends TestCase
             [TokenGrantedEvent::class => ['updateLastLogin']],
             LastLoginListener::getSubscribedEvents()
         );
+        $this->assertTrue(method_exists($lastLoginListener, 'updateLastLogin'));
     }
 
     /**
      * @throws \Exception
      */
-    public function testUpdateLastLoginNoTokenInResponse()
+    public function testUpdateLastLoginNoTokenInResponse(): void
     {
         $response = $this->createMock(Response::class);
         $response->expects($this->once())->method('getContent')->with()->willReturn(null);
@@ -50,7 +47,7 @@ class LastLoginListenerTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateLastLoginNoUser()
+    public function testUpdateLastLoginNoUser(): void
     {
         $response = $this->createMock(Response::class);
         $response->expects($this->once())->method('getContent')->with()
@@ -73,7 +70,7 @@ class LastLoginListenerTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateLastLogin()
+    public function testUpdateLastLogin(): void
     {
         $response = $this->createMock(Response::class);
         $response->expects($this->once())->method('getContent')->with()

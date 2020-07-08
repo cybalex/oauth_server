@@ -16,6 +16,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "cybalex/test_helpers": "^1.1.2",
         "doctrine/doctrine-bundle": "^1.11",
         "doctrine/orm": "^2.6",
         "friendsofsymfony/oauth-server-bundle": "^1.6",
@@ -25,7 +26,6 @@
         "symfony/yaml": "4.4.*"
     },
     "require-dev": {
-        "cybalex/test_helpers": "^1.1.1",
         "friendsofphp/php-cs-fixer": "^2.15",
         "phpunit/phpunit": "^8.3"
     },
