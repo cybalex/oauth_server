@@ -21,9 +21,6 @@ class CorsConfig
 
     /**
      * CorsConfig constructor.
-     * @param string|null $allowOrigin
-     * @param string|null $allowMethods
-     * @param string|null $allowHeaders
      */
     public function __construct(
         ?string $allowOrigin,
@@ -35,25 +32,16 @@ class CorsConfig
         $this->allowHeaders = $allowHeaders ?? '*';
     }
 
-    /**
-     * @return string|null
-     */
     public function getAllowHeaders(): ?string
     {
         return $this->allowHeaders;
     }
 
-    /**
-     * @return string|null
-     */
     public function getAllowMethods(): ?string
     {
         return $this->allowMethods;
     }
 
-    /**
-     * @return string|null
-     */
     public function getAllowOrigin(): ?string
     {
         return $this->allowOrigin;

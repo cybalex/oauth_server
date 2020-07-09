@@ -28,9 +28,6 @@ class UserManager implements UserManagerInterface
 
     /**
      * UserManager constructor.
-     * @param ObjectManager $objectManager
-     * @param PasswordEncoderInterface $passwordEncoder
-     * @param StringCanonicalizer $canonicalizer
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -42,12 +39,6 @@ class UserManager implements UserManagerInterface
         $this->canonicalizer = $canonicalizer;
     }
 
-    /**
-     * @param string $username
-     * @param string $email
-     * @param string $plainPassword
-     * @param array $roles
-     */
     public function create(string $username, string $email, string $plainPassword, array $roles): void
     {
         $user = $this->getNewUserInstance();
@@ -70,9 +61,6 @@ class UserManager implements UserManagerInterface
         $this->objectManager->flush();
     }
 
-    /**
-     * @param UserInterface $user
-     */
     public function update(UserInterface $user): void
     {
         $this->objectManager->persist($user);

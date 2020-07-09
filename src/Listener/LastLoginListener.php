@@ -21,8 +21,6 @@ class LastLoginListener implements EventSubscriberInterface
 
     /**
      * LastLoginListener constructor.
-     * @param UserManagerInterface $userManager
-     * @param UserProvider $userProvider
      */
     public function __construct(UserManagerInterface $userManager, UserProvider $userProvider)
     {
@@ -38,9 +36,6 @@ class LastLoginListener implements EventSubscriberInterface
         return [TokenGrantedEvent::class => ['updateLastLogin']];
     }
 
-    /**
-     * @param TokenGrantedEvent $event
-     */
     public function updateLastLogin(TokenGrantedEvent $event): void
     {
         $responseBody = json_decode($event->getResponse()->getContent(), true);

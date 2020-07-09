@@ -18,16 +18,12 @@ final class CorsListener implements EventSubscriberInterface
 
     /**
      * CorsListener constructor.
-     * @param CorsConfig $config
      */
     public function __construct(CorsConfig $config)
     {
         $this->corsConfig = $config;
     }
 
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -36,9 +32,6 @@ final class CorsListener implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param ExceptionEvent $event
-     */
     public function onKernelException(ExceptionEvent $event): void
     {
         $response = $event->getResponse();
@@ -48,9 +41,6 @@ final class CorsListener implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param ResponseEvent $event
-     */
     public function onKernelResponse(ResponseEvent $event): void
     {
         if (!$event->isMasterRequest()) {
@@ -64,9 +54,6 @@ final class CorsListener implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param Response $response
-     */
     private function setHeaders(Response $response)
     {
         $response->headers->set('Access-Control-Allow-Origin', $this->corsConfig->getAllowOrigin());
