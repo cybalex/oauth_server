@@ -53,7 +53,7 @@ class UserManagerTest extends TestCase
         $username = 'John';
         $usernameCanonical = 'JohnCanonical';
         $email = 'john@mail.com';
-        $emailCanonical = 'john@mail.canonical.com';
+        $emailCanonical = 'johndoe@mail.canonical.com';
         $plainPassword = 'insecure';
         $encodedPassword = 'encodedPassword';
         $salt = 'salt';
@@ -61,8 +61,8 @@ class UserManagerTest extends TestCase
         $this->canonicalizer
             ->expects(static::exactly(2))
             ->method('canonicalize')
-            ->withConsecutive(['John'], ['john@mail.com'])
-            ->willReturnOnConsecutiveCalls('JohnCanonical', 'john@mail.canonical.com');
+            ->withConsecutive(['John'], [$email])
+            ->willReturnOnConsecutiveCalls('JohnCanonical', 'john.doe@mail.canonical.com');
 
         $user = $this->createMock(User::class);
         $user->expects(static::once())->method('setUsername')->with($username)->willReturnSelf();

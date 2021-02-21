@@ -42,17 +42,24 @@ class UserManager implements UserManagerInterface
     public function create(string $username, string $email, string $plainPassword, array $roles): void
     {
         $user = $this->getNewUserInstance();
+
+        $canonicalizedEmail = $this->canonicalizer->canonicalize($email);
+        $emailParts = explode('@', $canonicalizedEmail, 2);
+
+        if ($emailParts[1] === 'gmail.com') {
+            $canonicalizedEmailLogin = implode('', explode('.', $emailParts[0]));
+            $canonicalizedEmail = implode('@', [$canonicalizedEmailLogin, $emailParts[1]]);
+        }
+
         $user
-            ->setUsername($username)
-            ->setUsernameCanonical($this->canonicalizer->canonicalize($username))
-            ->setEmail($email)
-            ->setEmailCanonical($this->canonicalizer->canonicalize($email))
+            ->setUsername($this->canonicalizer->canonicalize($username))
+            ->setEmail($canonicalizedEmail)
             ->setPassword($this->passwordEncoder->encodePassword($plainPassword, $user->getSalt()))
             ->setEnabled(true);
 
-        $roles = \array_map(function ($role) {
-            return sprintf('ROLE_%s', strtoupper($role));
-        }, $roles
+        $roles = array_map(function ($role) {
+                return sprintf('ROLE_%s', strtoupper($role));
+            }, $roles
         );
 
         $user->setRoles($roles);

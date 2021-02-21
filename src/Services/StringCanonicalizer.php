@@ -15,6 +15,5 @@ class StringCanonicalizer
         return $encoding
             ? \mb_convert_case($string, MB_CASE_LOWER, $encoding)
             : \mb_convert_case($string, MB_CASE_LOWER);
-        lt;
     }
 }

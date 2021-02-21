@@ -24,19 +24,9 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(name="username_canonical", type="string", length=180, unique=true)
-     */
-    private $usernameCanonical;
-
-    /**
      * @ORM\Column(type="string", length=180)
      */
     private $email;
-
-    /**
-     * @ORM\Column(name="email_canonical", type="string", length=180, unique=true)
-     */
-    private $emailCanonical;
 
     /**
      * @ORM\Column(type="string")
@@ -93,21 +83,6 @@ class User implements UserInterface
     public function getUsername(): string
     {
         return $this->username;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setUsernameCanonical(string $usernameCanonical): self
-    {
-        $this->usernameCanonical = $usernameCanonical;
-
-        return $this;
-    }
-
-    public function getUsernameCanonical(): string
-    {
-        return $this->usernameCanonical;
     }
 
     /**
@@ -195,21 +170,6 @@ class User implements UserInterface
     public function getEmail(): ?string
     {
         return $this->email;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setEmailCanonical(string $emailCanonical): self
-    {
-        $this->emailCanonical = $emailCanonical;
-
-        return $this;
-    }
-
-    public function getEmailCanonical(): string
-    {
-        return $this->emailCanonical;
     }
 
     /**
