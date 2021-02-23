@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cybalex\OauthServer\Tests\Services\ORM;
 
 use Cybalex\OauthServer\Entity\ORM\User;
@@ -53,7 +55,7 @@ class UserManagerTest extends TestCase
         $username = 'John';
         $usernameCanonical = 'JohnCanonical';
         $email = 'john@mail.com';
-        $emailCanonical = 'johndoe@mail.canonical.com';
+        $emailCanonical = 'johndoe@gmail.com';
         $plainPassword = 'insecure';
         $encodedPassword = 'encodedPassword';
         $salt = 'salt';
@@ -61,15 +63,12 @@ class UserManagerTest extends TestCase
         $this->canonicalizer
             ->expects(static::exactly(2))
             ->method('canonicalize')
-            ->withConsecutive(['John'], [$email])
-            ->willReturnOnConsecutiveCalls('JohnCanonical', 'john.doe@mail.canonical.com');
+            ->withConsecutive([$email], ['John'])
+            ->willReturnOnConsecutiveCalls('johndoe@gmail.com', 'JohnCanonical');
 
         $user = $this->createMock(User::class);
-        $user->expects(static::once())->method('setUsername')->with($username)->willReturnSelf();
-        $user->expects(static::once())->method('setUsernameCanonical')->with($usernameCanonical)
-            ->willReturnSelf();
-        $user->expects(static::once())->method('setEmail')->with($email)->willReturnSelf();
-        $user->expects(static::once())->method('setEmailCanonical')->with($emailCanonical)->willReturnSelf();
+        $user->expects(static::once())->method('setUsername')->with($usernameCanonical)->willReturnSelf();
+        $user->expects(static::once())->method('setEmail')->with($emailCanonical)->willReturnSelf();
         $user->expects(static::once())->method('setPassword')->with($encodedPassword)->willReturnSelf();
         $user->expects(static::once())->method('getSalt')->with()->willReturn($salt);
         $user->expects(static::once())->method('setRoles')->with(['ROLE_USER', 'ROLE_ADMIN'])->willReturnSelf();

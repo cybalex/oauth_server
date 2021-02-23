@@ -1,0 +1,15 @@
+version: "3.6"
+
+services:
+  oauth:
+    image: cybalex/oauth-php-dev
+    container_name: oauth
+    volumes:
+      - $PWD:/var/www/oauth
+    working_dir: /var/www/oauth
+    networks:
+      - oauth
+    restart: unless-stopped
+
+networks:
+  oauth:
